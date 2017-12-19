@@ -1,42 +1,43 @@
+"""
+Objective:
+- Connect python program to Arduino through serial.
+- Send new gimbal position to Arduino continuously.
+"""
 import serial
 import time
-from random import randint
 import threading
 
-offset = -8
-current_position = 0
 
-ONE_REVOLUTION = 4096
+class Controller(threading.Thread):
+    ONE_REVOLUTION = 4096
 
-ser = serial.Serial()
-ser.baudrate = 57600
-ser.port = 'COM4'
-ser.open()
+    keep_looping = True
+    refresh_rate = 0.1
+    message = '0000'
 
+    ser = serial.Serial()
+    ser.baudrate = 57600
+    ser.port = 'COM4'
+    ser.open()
 
-def get_random_4place_integer():
-    return str(randint(0, ONE_REVOLUTION)).zfill(4)
+    def __init__(self):
+        super(Controller, self).__init__()
+        self._stop_event = threading.Event()
 
+    def stop(self):
+        self._stop_event.set()
 
-def get_new_position():
-    global current_position
-    global offset
-    if (current_position == ONE_REVOLUTION or current_position == 0):
-        offset = -offset
-    current_position = current_position + offset
-    return str(current_position).zfill(4)
+    def stopped(self):
+        return self._stop_event.is_set()
 
+    def run(self):
+        while (not self.stopped()):
+            self.send_serial_message(self.message + ";")
+            time.sleep(self.refresh_rate)
 
-def send_serial_message(message):
-    print(message)
-    ser.write(message.encode())
+    def send_serial_message(self, msg):
+        print(msg)
+        # self.ser.write(msg.encode())
 
-
-def main():
-    while (True):
-        send_serial_message(get_new_position()+";")
-        time.sleep(0.005)
-
-
-if __name__ == '__main__':
-    main()
+    def set_message(self, msg):
+        self.message = msg
