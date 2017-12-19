@@ -55,6 +55,7 @@ void loop()
 //     }
 // }
 
+// This method is run once every loop() time
 void serialEvent()
 {
     while (Serial.available())
@@ -62,6 +63,7 @@ void serialEvent()
         buffer = Serial.read();
         if (isDigit(buffer))
         {
+            // Convert from ASCII to int and put it into the array
             serialInt[index] = buffer - 48;
             index++;
             if (index == EXPECTED_INPUT_LENGTH)
@@ -72,7 +74,7 @@ void serialEvent()
                 // servoAngle_1 = serialInt[6] * 100 + serialInt[7] * 10 + serialInt[8];
                 // servoSpeed_1 = serialInt[9] * 100 + serialInt[10] * 10 + serialInt[11];
 
-                stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2]*10+serialInt[3]);
+                stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
             }
         }
         else
