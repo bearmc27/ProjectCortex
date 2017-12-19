@@ -1,0 +1,10 @@
+{
+  "builtInLibrariesFolders": "C:\\Program Files (x86)\\Arduino\\libraries",
+  "customBuildProperties": "build.path=c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\build,build.warn_data_percentage=75,runtime.tools.arduinoOTA.path=C:\\Users\\man_k\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\arduinoOTA\\1.1.1,runtime.tools.avr-gcc.path=C:\\Users\\man_k\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\avr-gcc\\4.9.2-atmel3.5.4-arduino2,runtime.tools.avrdude.path=C:\\Users\\man_k\\AppData\\Local\\Arduino15\\packages\\arduino\\tools\\avrdude\\6.3.0-arduino9",
+  "fqbn": "arduino:avr:uno",
+  "hardwareFolders": "C:\\Program Files (x86)\\Arduino\\hardware,C:\\Users\\man_k\\AppData\\Local\\Arduino15\\packages",
+  "otherLibrariesFolders": "C:\\Users\\man_k\\Documents\\Arduino\\libraries",
+  "runtime.ide.version": "10805",
+  "sketchLocation": "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino",
+  "toolsFolders": "C:\\Program Files (x86)\\Arduino\\tools-builder,C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr,C:\\Users\\man_k\\AppData\\Local\\Arduino15\\packages"
+}
