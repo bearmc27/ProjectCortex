@@ -17,7 +17,7 @@ class Controller(threading.Thread):
 
     ser = serial.Serial()
     ser.baudrate = 57600
-    ser.port = 'COM4'
+    ser.port = 'COM6'
     ser.open()
 
     def __init__(self):

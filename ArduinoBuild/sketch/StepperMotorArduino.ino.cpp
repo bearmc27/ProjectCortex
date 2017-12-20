@@ -1,3 +1,6 @@
+#include <Arduino.h>
+#line 1 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+#line 1 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 #include <AccelStepper.h>
 
 #define EXPECTED_INPUT_LENGTH 4
@@ -29,6 +32,13 @@ int serialInt[EXPECTED_INPUT_LENGTH + 1];
 String input;
 
 // Only run once at the begining
+#line 32 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+void setup();
+#line 46 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+void loop();
+#line 73 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+void serialEvent();
+#line 32 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 void setup()
 {
     // Initialize serial communcation with 57600 baud rate
@@ -98,3 +108,4 @@ void serialEvent()
         }
     }
 }
+

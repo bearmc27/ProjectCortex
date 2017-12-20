@@ -3,7 +3,7 @@ Objective:
 - Kick-starting the program.
 - Read configuration file and pass it to other class
 """
-import TrackingSystem.TrackingSystem as tracking_sys
+from TrackingSystem import TrackingSystem as tracking_sys
 
 
 def main():

@@ -1,31 +1,33 @@
-#include <AccelStepper.h>
+# 1 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+# 1 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+# 2 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino" 2
 
-#define EXPECTED_INPUT_LENGTH 4
-#define HALFSTEP 8
-#define ONE_REVOLUTION 4096
-#define MAX_SPEED 1024
-#define ACCELERATION 1024
+
+
+
+
+
 
 // Motor pin definitions (Stepper motor 1)
-#define STEPPER_MOTOR1_PIN1 3 // IN1 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN2 4 // IN2 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN3 5 // IN3 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN4 6 // IN4 on the ULN2003 driver 1
+
+
+
+
 
 // Motor pin definitions (Stepper motor 2)
-#define STEPPER_MOTOR2_PIN1 8 // IN1 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN2 9 // IN2 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN3 10 // IN3 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN4 11 // IN4 on the ULN2003 driver 2
+
+
+
+
 
 
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48 Stepper Motor
-AccelStepper stepper1(HALFSTEP, STEPPER_MOTOR1_PIN1, STEPPER_MOTOR1_PIN3, STEPPER_MOTOR1_PIN2, STEPPER_MOTOR1_PIN4);
-AccelStepper stepper2(HALFSTEP, STEPPER_MOTOR2_PIN1, STEPPER_MOTOR2_PIN3, STEPPER_MOTOR2_PIN2, STEPPER_MOTOR2_PIN4);
+AccelStepper stepper1(8, 3 /* IN1 on the ULN2003 driver 1*/, 5 /* IN3 on the ULN2003 driver 1*/, 4 /* IN2 on the ULN2003 driver 1*/, 6 /* IN4 on the ULN2003 driver 1*/);
+AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the ULN2003 driver 2*/, 9 /* IN2 on the ULN2003 driver 2*/, 11 /* IN4 on the ULN2003 driver 2*/);
 
 char buffer;
 int index = 0;
-int serialInt[EXPECTED_INPUT_LENGTH + 1];
+int serialInt[4 + 1];
 String input;
 
 // Only run once at the begining
@@ -35,11 +37,11 @@ void setup()
     Serial.begin(57600);
 
     // Stepper1 Testing
-    stepper1.setMaxSpeed(MAX_SPEED);
-    stepper1.setAcceleration(ACCELERATION);
+    stepper1.setMaxSpeed(1024);
+    stepper1.setAcceleration(1024);
     // Stepper2 Testing
-    stepper2.setMaxSpeed(MAX_SPEED);
-    stepper2.setAcceleration(ACCELERATION);
+    stepper2.setMaxSpeed(1024);
+    stepper2.setAcceleration(1024);
 }
 
 // Continuously running until power off
@@ -80,7 +82,7 @@ void serialEvent()
             // Convert from ASCII to int and put it into the array
             serialInt[index] = buffer - 48;
             index++;
-            if (index == EXPECTED_INPUT_LENGTH)
+            if (index == 4)
             {
                 index = 0;
                 // servoAngle_0 = serialInt[0] * 100 + serialInt[1] * 10 + serialInt[2];
