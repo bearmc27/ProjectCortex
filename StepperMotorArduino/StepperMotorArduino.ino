@@ -1,6 +1,6 @@
 #include <AccelStepper.h>
 
-#define EXPECTED_INPUT_LENGTH 4
+#define EXPECTED_INPUT_LENGTH 8
 #define HALFSTEP 8
 #define ONE_REVOLUTION 4096
 #define MAX_SPEED 1024
@@ -13,11 +13,10 @@
 #define STEPPER_MOTOR1_PIN4 6 // IN4 on the ULN2003 driver 1
 
 // Motor pin definitions (Stepper motor 2)
-#define STEPPER_MOTOR2_PIN1 8 // IN1 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN2 9 // IN2 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN1 8  // IN1 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN2 9  // IN2 on the ULN2003 driver 2
 #define STEPPER_MOTOR2_PIN3 10 // IN3 on the ULN2003 driver 2
 #define STEPPER_MOTOR2_PIN4 11 // IN4 on the ULN2003 driver 2
-
 
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48 Stepper Motor
 AccelStepper stepper1(HALFSTEP, STEPPER_MOTOR1_PIN1, STEPPER_MOTOR1_PIN3, STEPPER_MOTOR1_PIN2, STEPPER_MOTOR1_PIN4);
@@ -83,13 +82,8 @@ void serialEvent()
             if (index == EXPECTED_INPUT_LENGTH)
             {
                 index = 0;
-                // servoAngle_0 = serialInt[0] * 100 + serialInt[1] * 10 + serialInt[2];
-                // servoSpeed_0 = serialInt[3] * 100 + serialInt[4] * 10 + serialInt[5];
-                // servoAngle_1 = serialInt[6] * 100 + serialInt[7] * 10 + serialInt[8];
-                // servoSpeed_1 = serialInt[9] * 100 + serialInt[10] * 10 + serialInt[11];
-
                 stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
-                stepper2.moveTo(-serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
+                stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
             }
         }
         else

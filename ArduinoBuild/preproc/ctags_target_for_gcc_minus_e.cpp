@@ -27,7 +27,7 @@ AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the UL
 
 char buffer;
 int index = 0;
-int serialInt[4 + 1];
+int serialInt[8 + 1];
 String input;
 
 // Only run once at the begining
@@ -82,7 +82,7 @@ void serialEvent()
             // Convert from ASCII to int and put it into the array
             serialInt[index] = buffer - 48;
             index++;
-            if (index == 4)
+            if (index == 8)
             {
                 index = 0;
                 // servoAngle_0 = serialInt[0] * 100 + serialInt[1] * 10 + serialInt[2];
@@ -91,7 +91,7 @@ void serialEvent()
                 // servoSpeed_1 = serialInt[9] * 100 + serialInt[10] * 10 + serialInt[11];
 
                 stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
-                stepper2.moveTo(-serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
+                stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
             }
         }
         else

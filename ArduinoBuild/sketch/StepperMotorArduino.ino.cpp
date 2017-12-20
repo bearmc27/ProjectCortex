@@ -3,7 +3,7 @@
 #line 1 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 #include <AccelStepper.h>
 
-#define EXPECTED_INPUT_LENGTH 4
+#define EXPECTED_INPUT_LENGTH 8
 #define HALFSTEP 8
 #define ONE_REVOLUTION 4096
 #define MAX_SPEED 1024
@@ -99,7 +99,7 @@ void serialEvent()
                 // servoSpeed_1 = serialInt[9] * 100 + serialInt[10] * 10 + serialInt[11];
 
                 stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
-                stepper2.moveTo(-serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
+                stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
             }
         }
         else

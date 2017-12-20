@@ -39,6 +39,6 @@ class Controller(threading.Thread):
         # print(msg)
         self.ser.write(msg.encode())
 
-    def set_message(self, msg):
-        self.message = str(msg).zfill(4)
+    def set_message(self, msg1, msg2):
+        self.message = str(msg1).zfill(4) + str(msg2).zfill(4)
         print("Message is now: " + self.message)
