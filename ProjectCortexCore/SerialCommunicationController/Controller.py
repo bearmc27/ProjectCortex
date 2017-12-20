@@ -36,8 +36,9 @@ class Controller(threading.Thread):
             time.sleep(self.refresh_rate)
 
     def send_serial_message(self, msg):
-        print(msg)
-        # self.ser.write(msg.encode())
+        # print(msg)
+        self.ser.write(msg.encode())
 
     def set_message(self, msg):
-        self.message = msg
+        self.message = str(msg).zfill(4)
+        print("Message is now: " + self.message)
