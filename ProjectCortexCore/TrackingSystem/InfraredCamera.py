@@ -18,8 +18,7 @@ class InfraredCamera():
     def get_frame(self):
         if self.camera.isOpened():
             (grabbed, frame) = self.camera.read()
-            frame = imutils.resize(frame, width = 400)
-            return self.process(frame)
+            return frame
 
             # ir_result = self.process(frame)
             #

@@ -13,7 +13,9 @@ class Controller(threading.Thread):
 
     keep_looping = True
     refresh_rate = 0.1
-    message = '0000'
+    message = "00000000"
+    x = 0
+    y = 0
 
     ser = serial.Serial()
     ser.baudrate = 57600
@@ -39,6 +41,13 @@ class Controller(threading.Thread):
         # print(msg)
         self.ser.write(msg.encode())
 
-    def set_message(self, msg1, msg2):
-        self.message = str(msg1).zfill(4) + str(msg2).zfill(4)
+    def set_message(self, dx, dy):
+        self.x = self.x + dx
+        if (self.x < 0):
+            self.x = 0
+        self.y = self.y + dy
+        if (self.y < 0):
+            self.y = 0
+
+        self.message = str(self.x).zfill(4) + str(self.y).zfill(4)
         print("Message is now: " + self.message)
