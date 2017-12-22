@@ -3,7 +3,7 @@ Objective:
 - Connect SerialCommunicationController and camera related system together
 """
 
-from SerialCommunicationController import Controller as serial_controller
+# from SerialCommunicationController import Controller as serial_controller
 from TrackingSystem import InfraredCamera as infrared_camera
 import cv2
 import imutils
@@ -15,9 +15,9 @@ class TrackingSystem():
     ir_camera = None
 
     def __init__(self):
-        # Start serial communication controller thread
-        self.controller_thread = serial_controller.Controller()
-        self.controller_thread.start()
+        # # Start serial communication controller thread
+        # self.controller_thread = serial_controller.Controller()
+        # self.controller_thread.start()
 
         # Start infrared camera thread
         self.ir_camera = infrared_camera.InfraredCamera(1)
@@ -49,7 +49,7 @@ class TrackingSystem():
                             dy = 32
                         else:
                             dy = -32
-                        self.set_controller_thread_message(dx, dy)
+                        # self.set_controller_thread_message(dx, dy)
 
         print("End of program")
 
