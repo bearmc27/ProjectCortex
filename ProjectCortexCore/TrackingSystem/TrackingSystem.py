@@ -5,21 +5,18 @@ Objective:
 
 import imutils
 
+from InfraredCamera import Camera as infrared_camera
 from SerialCommunicationController import Controller as serial_controller
-from TrackingSystem import InfraredCamera as infrared_camera
 
 
 class TrackingSystem:
-    controller_thread = None
-    ir_camera = None
-
     def __init__(self):
         # Start serial communication controller thread
-        self.controller_thread = serial_controller.Controller()
+        self.controller = serial_controller.Controller()
         # self.controller_thread.start()
 
         # Start infrared camera thread
-        self.ir_camera = infrared_camera.InfraredCamera(1)
+        self.ir_camera = infrared_camera.Camera(camera_index = 0)
         while True:
             # Get a frame from camera
             frame = imutils.resize(self.ir_camera.get_frame(), width = 400)
@@ -64,4 +61,4 @@ class TrackingSystem:
 
     # Pass the message to SerialCommunicationController
     def send_serial_message(self, message):
-        self.controller_thread.send_serial_message(message = message)
+        self.controller.send_serial_message(message = message)

@@ -1,13 +1,13 @@
 # import the necessary packages
 from __future__ import print_function
+
+import threading
+import tkinter as tki
+
+import cv2
+import imutils
 from PIL import Image
 from PIL import ImageTk
-import tkinter as tki
-import threading
-import datetime
-import imutils
-import cv2
-import os
 
 
 class PhotoBoothApp:
@@ -94,5 +94,3 @@ class PhotoBoothApp:
         self.stopEvent.set()
         self.vs.stop()
         self.root.quit()
-
-

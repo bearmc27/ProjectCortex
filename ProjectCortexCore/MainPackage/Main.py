@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 """
 Objective:
 - Kick-starting the program.
@@ -7,10 +8,6 @@ Objective:
 from TrackingSystem import TrackingSystem as tracking_sys
 
 # GUI testing
-from MainPackage.MainGUI import PhotoBoothApp
-from imutils.video import VideoStream
-import argparse
-import time
 
 
 def main():

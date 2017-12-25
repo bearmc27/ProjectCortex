@@ -6,17 +6,16 @@ Objective:
 import cv2
 import numpy as np
 
+from InfraredCamera.VideoStream import VideoStream
 
-class InfraredCamera():
-    camera = None
 
+class Camera():
     def __init__(self, camera_index):
-        self.camera = cv2.VideoCapture(camera_index)
+        self.video_stream = VideoStream(src = camera_index)
+        self.video_stream.start()
 
     def get_frame(self):
-        if self.camera.isOpened():
-            (grabbed, frame) = self.camera.read()
-            return frame
+        return self.video_stream.get_frame()
 
     def process(self, frame):
         # Convert frame from RGB color space to HSV color base
