@@ -25,6 +25,9 @@ AccelStepper stepper2(HALFSTEP, STEPPER_MOTOR2_PIN1, STEPPER_MOTOR2_PIN3, STEPPE
 char buffer;
 int index = 0;
 int serialInt[EXPECTED_INPUT_LENGTH + 1];
+int packageType;
+int dx;
+int dy;
 String input;
 
 // Only run once at the begining
@@ -82,8 +85,15 @@ void serialEvent()
             if (index == EXPECTED_INPUT_LENGTH)
             {
                 index = 0;
-                stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
-                stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
+
+                // Map package byte to different variables
+                packageType = serialInt[0];
+                dx = (serialInt[1] - 1) * (serialInt[2] * 100 + serialInt[3] * 10 + serialInt[4]);
+                dy = (serialInt[5] - 1) * (serialInt[6] * 100 + serialInt[7] * 10 + serialInt[8]);
+                stepper1.move(dx);
+                stepper2.move(dy);
+                // stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
+                // stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
             }
         }
         else

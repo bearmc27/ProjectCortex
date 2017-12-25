@@ -4,7 +4,6 @@ Objective:
 - Includes infrared processing functions
 """
 import cv2
-import imutils
 import numpy as np
 
 
@@ -14,30 +13,12 @@ class InfraredCamera():
     def __init__(self, camera_index):
         self.camera = cv2.VideoCapture(camera_index)
 
-
     def get_frame(self):
         if self.camera.isOpened():
             (grabbed, frame) = self.camera.read()
             return frame
 
-            # ir_result = self.process(frame)
-            #
-            # # If InfraredTracker find a target led
-            # if (ir_result != None):
-            #
-            #     # Circling the target
-            #     if (True):
-            #         # only proceed if the radius meets a minimum size
-            #         if ir_result['radius'] > 5:
-            #             # draw the circle and centroid on the frame, then update the list of tracked points
-            #             cv2.circle(frame, (int(ir_result['x']), int(ir_result['y'])), int(ir_result['radius']),
-            #                        (0, 255, 255), 2)
-            #             cv2.circle(frame, ir_result['moment_center'], 5, (0, 0, 255), -1)
-            #             # draw line from center of frame to circle
-            #             cv2.line(frame, (200, 150), (int(ir_result['x']), int(ir_result['y'])), (255, 0, 0), 2)
-            #             print("dx:" + str(int(ir_result['x']) - 200) + "\tdy:" + str(int(ir_result['y']) - 150))
-
-    def process(self,frame):
+    def process(self, frame):
         # Convert frame from RGB color space to HSV color base
         frame_hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 

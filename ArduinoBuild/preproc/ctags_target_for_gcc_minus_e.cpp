@@ -20,7 +20,6 @@
 
 
 
-
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48 Stepper Motor
 AccelStepper stepper1(8, 3 /* IN1 on the ULN2003 driver 1*/, 5 /* IN3 on the ULN2003 driver 1*/, 4 /* IN2 on the ULN2003 driver 1*/, 6 /* IN4 on the ULN2003 driver 1*/);
 AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the ULN2003 driver 2*/, 9 /* IN2 on the ULN2003 driver 2*/, 11 /* IN4 on the ULN2003 driver 2*/);
@@ -28,6 +27,9 @@ AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the UL
 char buffer;
 int index = 0;
 int serialInt[8 + 1];
+int packageType;
+int dx;
+int dy;
 String input;
 
 // Only run once at the begining
@@ -85,13 +87,15 @@ void serialEvent()
             if (index == 8)
             {
                 index = 0;
-                // servoAngle_0 = serialInt[0] * 100 + serialInt[1] * 10 + serialInt[2];
-                // servoSpeed_0 = serialInt[3] * 100 + serialInt[4] * 10 + serialInt[5];
-                // servoAngle_1 = serialInt[6] * 100 + serialInt[7] * 10 + serialInt[8];
-                // servoSpeed_1 = serialInt[9] * 100 + serialInt[10] * 10 + serialInt[11];
 
-                stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
-                stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
+                // Map package byte to different variables
+                packageType = serialInt[0];
+                dx = (serialInt[1] - 1) * (serialInt[2] * 100 + serialInt[3] * 10 + serialInt[4]);
+                dy = (serialInt[5] - 1) * (serialInt[6] * 100 + serialInt[7] * 10 + serialInt[8]);
+                stepper1.move(dx);
+                stepper2.move(dy);
+                // stepper1.moveTo(serialInt[0] * 1000 + serialInt[1] * 100 + serialInt[2] * 10 + serialInt[3]);
+                // stepper2.moveTo(serialInt[4] * 1000 + serialInt[5] * 100 + serialInt[6] * 10 + serialInt[7]);
             }
         }
         else

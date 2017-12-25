@@ -3,25 +3,24 @@ Objective:
 - Connect SerialCommunicationController and camera related system together
 """
 
-# from SerialCommunicationController import Controller as serial_controller
-from TrackingSystem import InfraredCamera as infrared_camera
-import cv2
 import imutils
-import math
+
+from SerialCommunicationController import Controller as serial_controller
+from TrackingSystem import InfraredCamera as infrared_camera
 
 
-class TrackingSystem():
+class TrackingSystem:
     controller_thread = None
     ir_camera = None
 
     def __init__(self):
-        # # Start serial communication controller thread
-        # self.controller_thread = serial_controller.Controller()
+        # Start serial communication controller thread
+        self.controller_thread = serial_controller.Controller()
         # self.controller_thread.start()
 
         # Start infrared camera thread
         self.ir_camera = infrared_camera.InfraredCamera(1)
-        while (True):
+        while True:
             # Get a frame from camera
             frame = imutils.resize(self.ir_camera.get_frame(), width = 400)
 
@@ -29,30 +28,40 @@ class TrackingSystem():
             ir_result = self.ir_camera.process(frame)
 
             # If InfraredTracker find a target led
-            if (ir_result != None):
+            if ir_result != None:
 
-                # Circling the target
-                if (True):
-                    # only proceed if the radius meets a minimum size
-                    if ir_result['radius'] > 5:
+                # only proceed if the radius meets a minimum size
+                if ir_result['radius'] > 5:
 
-                        # Print the value of DX and DY
-                        print("dx:" + str(int(ir_result['x']) - 200) + "\tdy:" + str(int(ir_result['y']) - 150))
+                    # Calculate the distance from center to target, in X-axis and Y-axis
+                    dx = int(ir_result['x']) - 200
+                    dy = int(ir_result['y']) - 150
+                    # Print the value of DX and DY
+                    print("dx:" + str(dx) + "\tdy:" + str(dy))
 
-                        dx = 0
-                        dy = 0
-                        if (int(ir_result['x']) - 200 > 0):
-                            dx = 32
-                        else:
-                            dx = -32
-                        if (int(ir_result['y']) - 150 > 0):
-                            dy = 32
-                        else:
-                            dy = -32
-                        # self.set_controller_thread_message(dx, dy)
+                    # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1, 2-> 1
+                    # target on left to center
+                    if (dx < 0):
+                        direction_x = 0
+                    # target on right to center
+                    else:
+                        direction_x = 2
+                    # target above center
+                    if dy < 0:
+                        direction_y = 0
+                    # target below center
+                    else:
+                        direction_y = 2
 
-        print("End of program")
+                    # TODO: Set package type
+                    # Build the message string
+                    # First integer is package type
+                    message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"
+                    print("Message is now: " + message)
 
-    # TODO: add message checking
-    def set_controller_thread_message(self, dx, dy):
-        self.controller_thread.set_message(dx = dx, dy = dy)
+                    # Send message
+                    self.send_serial_message(message = message)
+
+    # Pass the message to SerialCommunicationController
+    def send_serial_message(self, message):
+        self.controller_thread.send_serial_message(message = message)
