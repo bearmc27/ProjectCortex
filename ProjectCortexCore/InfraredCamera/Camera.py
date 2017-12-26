@@ -28,7 +28,7 @@ class Camera():
         mask = cv2.inRange(frame_hsv, lower_boundary, upper_boundary)
 
         # Dilate the frame
-        mask = cv2.dilate(mask, None, iterations = 3)
+        mask = cv2.dilate(mask, None, iterations = 2)
 
         # Find contours in the mask
         # contours: 輪廓

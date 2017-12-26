@@ -8,13 +8,13 @@
 
 
 
-// Motor pin definitions (Stepper motor 1)
+// Motor pin definitions (Stepper motor 1)(X-Axis))
 
 
 
 
 
-// Motor pin definitions (Stepper motor 2)
+// Motor pin definitions (Stepper motor 2)(Y-Axis)
 
 
 
@@ -39,10 +39,10 @@ void setup()
     Serial.begin(57600);
 
     // Stepper1 Testing
-    stepper1.setMaxSpeed(1024);
+    stepper1.setMaxSpeed(2048);
     stepper1.setAcceleration(1024);
     // Stepper2 Testing
-    stepper2.setMaxSpeed(1024);
+    stepper2.setMaxSpeed(2048);
     stepper2.setAcceleration(1024);
 }
 

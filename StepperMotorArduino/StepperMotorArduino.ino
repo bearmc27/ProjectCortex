@@ -3,16 +3,16 @@
 #define EXPECTED_INPUT_LENGTH 8
 #define HALFSTEP 8
 #define ONE_REVOLUTION 4096
-#define MAX_SPEED 1024
+#define MAX_SPEED 2048
 #define ACCELERATION 1024
 
-// Motor pin definitions (Stepper motor 1)
+// Motor pin definitions (Stepper motor 1)(X-Axis))
 #define STEPPER_MOTOR1_PIN1 3 // IN1 on the ULN2003 driver 1
 #define STEPPER_MOTOR1_PIN2 4 // IN2 on the ULN2003 driver 1
 #define STEPPER_MOTOR1_PIN3 5 // IN3 on the ULN2003 driver 1
 #define STEPPER_MOTOR1_PIN4 6 // IN4 on the ULN2003 driver 1
 
-// Motor pin definitions (Stepper motor 2)
+// Motor pin definitions (Stepper motor 2)(Y-Axis)
 #define STEPPER_MOTOR2_PIN1 8  // IN1 on the ULN2003 driver 2
 #define STEPPER_MOTOR2_PIN2 9  // IN2 on the ULN2003 driver 2
 #define STEPPER_MOTOR2_PIN3 10 // IN3 on the ULN2003 driver 2
