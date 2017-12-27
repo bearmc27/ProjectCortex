@@ -4,6 +4,7 @@ Objective:
 """
 
 import imutils
+import math
 
 from InfraredCamera import Camera as infrared_camera
 from SerialCommunicationController import Controller as serial_controller
@@ -12,20 +13,21 @@ from SerialCommunicationController import Controller as serial_controller
 class TrackingSystem:
     def __init__(self):
         # Defines the effective range(boarder), helps avoid tiny noise movement
-        self.effective_x = 12
-        self.effective_y = 9
+        self.effective_x = 10
+        self.effective_y = 10
 
-        self.ratio = 1.0
+        self.ratio_x = 1.0
+        self.ratio_y = 1.25
 
         # Start serial communication controller thread
         self.controller = serial_controller.Controller()
         # self.controller_thread.start()
 
         # Start infrared camera thread
-        self.ir_camera = infrared_camera.Camera(camera_index = 0)
+        self.ir_camera = infrared_camera.Camera(camera_index = 2)
         while True:
             # Get a frame from camera
-            frame = imutils.resize(self.ir_camera.get_frame(), width = 400)
+            frame = imutils.resize(self.ir_camera.get_frame(), width = 360)
 
             # Process the frame
             ir_result = self.ir_camera.process(frame)
@@ -39,10 +41,10 @@ class TrackingSystem:
                     # Calculate the distance from center to target, in X-axis and Y-axis
                     # dx = math.floor((int(ir_result['x']) - 200) * self.ratio)
                     # dy = math.floor((int(ir_result['y']) - 150) * self.ratio)
-                    dx = int(ir_result['x']) - 200
-                    dy = int(ir_result['y']) - 150
+                    dx = int(ir_result['x']) - 180
+                    dy = int(ir_result['y']) - 180
 
-                    print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
+                    # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
                     abs_dx = abs(dx)
                     abs_dy = abs(dy)
@@ -51,7 +53,7 @@ class TrackingSystem:
                     if abs_dy < self.effective_y:
                         dy = 0
 
-                    print("After : dx: " + str(dx) + "\tdy: " + str(dy))
+                    # print("After : dx: " + str(dx) + "\tdy: " + str(dy))
 
                     if not (dx == 0 and dy == 0):
 
@@ -72,8 +74,8 @@ class TrackingSystem:
                         # TODO: Set package type
                         # Build the message string
                         # First integer is package type
-                        message = "0" + str(direction_x) + str(abs_dx).zfill(3) + str(direction_y) + str(abs_dy).zfill(3) + ";"
-                        print("Sent Message: " + message)
+                        message = "0" + str(direction_x) + str(math.floor(abs(dx)*self.ratio_x)).zfill(3) + str(direction_y) + str(math.floor(abs(dy)*self.ratio_y)).zfill(3) + ";"
+                        # print("Sent Message: " + message)
 
                         # Send message
                         self.send_serial_message(message = message)

@@ -15,7 +15,7 @@ class Controller:
 
     ser = serial.Serial()
     ser.baudrate = 57600
-    ser.port = 'COM6'
+    ser.port = 'COM3'
     ser.open()
 
     # Write message to serial bus

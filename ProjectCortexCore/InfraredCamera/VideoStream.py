@@ -1,7 +1,7 @@
 from threading import Thread
 
 import cv2
-
+import time
 
 class VideoStream:
     def __init__(self, src = 0):
@@ -22,6 +22,7 @@ class VideoStream:
         while not self.stopped:
             if self.stream.isOpened():
                 (self.grabbed, self.frame) = self.stream.read()
+
 
     def get_frame(self):
         # Return the most recent frame
