@@ -3,8 +3,9 @@ Objective:
 - Connect SerialCommunicationController and camera related system together
 """
 
-import imutils
 import math
+
+import imutils
 
 from InfraredCamera import Camera as infrared_camera
 from SerialCommunicationController import Controller as serial_controller
@@ -20,11 +21,11 @@ class TrackingSystem:
         self.ratio_y = 1.25
 
         # Start serial communication controller thread
-        self.controller = serial_controller.Controller()
+        self.serial_controller = serial_controller.Controller()
         # self.controller_thread.start()
 
         # Start infrared camera thread
-        self.ir_camera = infrared_camera.Camera(camera_index = 2)
+        self.ir_camera = infrared_camera.Camera(camera_index = 0)
         while True:
             # Get a frame from camera
             frame = imutils.resize(self.ir_camera.get_frame(), width = 360)
@@ -74,7 +75,7 @@ class TrackingSystem:
                         # TODO: Set package type
                         # Build the message string
                         # First integer is package type
-                        message = "0" + str(direction_x) + str(math.floor(abs(dx)*self.ratio_x)).zfill(3) + str(direction_y) + str(math.floor(abs(dy)*self.ratio_y)).zfill(3) + ";"
+                        message = "0" + str(direction_x) + str(math.floor(abs(dx) * self.ratio_x)).zfill(3) + str(direction_y) + str(math.floor(abs(dy) * self.ratio_y)).zfill(3) + ";"
                         # print("Sent Message: " + message)
 
                         # Send message
@@ -82,4 +83,4 @@ class TrackingSystem:
 
     # Pass the message to SerialCommunicationController
     def send_serial_message(self, message):
-        self.controller.send_serial_message(message = message)
+        self.serial_controller.send_serial_message(message = message)

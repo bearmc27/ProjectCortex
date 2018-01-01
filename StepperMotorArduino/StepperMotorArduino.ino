@@ -1,6 +1,6 @@
 #include <AccelStepper.h>
 
-#define EXPECTED_INPUT_LENGTH 8
+#define EXPECTED_INPUT_LENGTH 9
 #define HALFSTEP 8
 #define ONE_REVOLUTION 4096
 #define MAX_SPEED 2048
