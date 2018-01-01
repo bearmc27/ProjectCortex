@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainGui</class>
+    <widget class="QWidget" name="MainGui">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>600</width>
+                <height>500</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Form</string>
+        </property>
+        <widget class="QPushButton" name="Button_StartVideo">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>460</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Start Video</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="Button_StopVideo">
+            <property name="geometry">
+                <rect>
+                    <x>120</x>
+                    <y>460</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Stop Video</string>
+            </property>
+        </widget>
+        <widget class="QLabel" name="Label_Video">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>10</y>
+                    <width>360</width>
+                    <height>270</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string/>
+            </property>
+            <property name="alignment">
+                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+    <designerdata>
+        <property name="gridDeltaX">
+            <number>10</number>
+        </property>
+        <property name="gridDeltaY">
+            <number>10</number>
+        </property>
+        <property name="gridSnapX">
+            <bool>true</bool>
+        </property>
+        <property name="gridSnapY">
+            <bool>true</bool>
+        </property>
+        <property name="gridVisible">
+            <bool>true</bool>
+        </property>
+    </designerdata>
+</ui>
