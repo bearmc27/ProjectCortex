@@ -6,14 +6,14 @@
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>600</width>
+                <width>700</width>
                 <height>500</height>
             </rect>
         </property>
         <property name="windowTitle">
             <string>Form</string>
         </property>
-        <widget class="QPushButton" name="Button_StartVideo">
+        <widget class="QPushButton" name="button_start_video">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -26,7 +26,7 @@
                 <string>Start Video</string>
             </property>
         </widget>
-        <widget class="QPushButton" name="Button_StopVideo">
+        <widget class="QPushButton" name="button_stop_video">
             <property name="geometry">
                 <rect>
                     <x>120</x>
@@ -39,20 +39,52 @@
                 <string>Stop Video</string>
             </property>
         </widget>
-        <widget class="QLabel" name="Label_Video">
+        <widget class="QLabel" name="label_videostream">
             <property name="geometry">
                 <rect>
-                    <x>10</x>
+                    <x>30</x>
                     <y>10</y>
-                    <width>360</width>
-                    <height>270</height>
+                    <width>640</width>
+                    <height>360</height>
                 </rect>
             </property>
             <property name="text">
                 <string/>
             </property>
+            <property name="pixmap">
+                <pixmap>../../../../../Users/man_k/Desktop/sample_picture_1080p.jpg</pixmap>
+            </property>
+            <property name="scaledContents">
+                <bool>true</bool>
+            </property>
             <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_start_tracking">
+            <property name="geometry">
+                <rect>
+                    <x>230</x>
+                    <y>460</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Start Tracking</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_stop_tracking">
+            <property name="geometry">
+                <rect>
+                    <x>340</x>
+                    <y>460</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Stop Tracking</string>
             </property>
         </widget>
     </widget>

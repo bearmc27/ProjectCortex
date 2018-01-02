@@ -25,6 +25,17 @@ def main():
     model = Model()
     controller = Controller(view = view, model = model)
     view.set_controller(controller = controller)
+    model.set_controller(controller = controller)
+    model.set_view(view = view)
+
+    # Create MainGui
+    view.main_gui_create()
+
+    # Setup view slots and signals
+    view.main_gui_setup_ui_slots()
+
+    # Show view window
+    view.main_gui_show()
 
     # Run mainloop of application, system exit on application terminate
     sys.exit(app.exec_())
