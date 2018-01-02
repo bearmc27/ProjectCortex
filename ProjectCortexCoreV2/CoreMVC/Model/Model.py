@@ -21,6 +21,10 @@ class Model():
         self.ratio_x = 1.0
         self.ratio_y = 1.25
 
+        self.serial_model = None
+        self.rgb_camera = RgbCamera()
+        self.infrared_camera = InfraredCamera()
+
     def set_controller(self, controller):
         self.controller = controller
 
@@ -32,32 +36,14 @@ class Model():
     ############################################################
     def create_serial_model(self, baudrate, port):
         self.serial_model = SerialModel(baudrate = baudrate, port = port)
+        return True
 
     def send_serial_message(self, message):
         self.serial_model.send_serial_message(message = message)
 
     ############################################################
-    # Infrared Camera
-    ############################################################
-    def create_infrared_camera(self):
-        self.infrared_camera = InfraredCamera()
-
-    def create_infrared_camera_videostream(self, camera_index):
-        self.infrared_camera.create_videostream(camera_index = camera_index)
-
-    def infrared_camera_get_frame(self):
-        return self.infrared_camera.get_frame()
-
-    def infrared_camera_stop_videostream(self):
-        if "infrared_camera" in dir(self):
-            self.infrared_camera.stop_stream()
-
-    ############################################################
     # RGB Camera
     ############################################################
-    def create_rgb_camera(self):
-        self.rgb_camera = RgbCamera()
-
     def create_rgb_camera_videostream(self, camera_index):
         self.rgb_camera.create_videostream(camera_index = camera_index)
 
@@ -65,19 +51,38 @@ class Model():
         return self.rgb_camera.get_frame()
 
     def rgb_camera_stop_videostream(self):
-        if "rgb_camera" in dir(self):
-            self.rgb_camera.stop_stream()
+        self.rgb_camera.stop_stream()
+
+    def release_rgb_camera_videostream(self):
+        self.rgb_camera.release_videostream()
+
+    ############################################################
+    # Infrared Camera
+    ############################################################
+    def create_infrared_camera_videostream(self, camera_index):
+        self.infrared_camera.create_videostream(camera_index = camera_index)
+
+    def infrared_camera_get_frame(self):
+        return self.infrared_camera.get_frame()
+
+    def infrared_camera_stop_videostream(self):
+        self.infrared_camera.stop_stream()
+
+    def release_infrared_camera_videostream(self):
+        self.infrared_camera.release_videostream()
 
     ############################################################
     # Video Preview
     ############################################################
     def start_video_preview(self):
         self.rgb_camera.start_stream()
+        self.rgb_camera.add_in_use()
         self.is_previewing = True
         Thread(target = self.view_preview_loop, args = ()).start()
 
     def stop_video_preview(self):
         self.is_previewing = False
+        self.rgb_camera.reduce_in_use()
 
     def view_preview_loop(self):
         while self.is_previewing:
@@ -95,11 +100,13 @@ class Model():
     ############################################################
     def start_tracking(self):
         self.infrared_camera.start_stream()
+        self.infrared_camera.add_in_use()
         self.is_tracking = True
         Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
         self.is_tracking = False
+        self.infrared_camera.reduce_in_use()
 
     def tracking_loop(self):
         while self.is_tracking:
@@ -156,4 +163,27 @@ class Model():
                         # print("Sent Message: " + message)
 
                         # Send message
-                        self.send_serial_message(message = message)
+                        # self.send_serial_message(message = message)
+                        print(message)
+
+    ############################################################
+    # Recording
+    ############################################################
+    def start_record(self):
+        # TODO: Relocate these code
+        fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+        width, height = self.rgb_camera.get_videostream_resolution()
+        self.out = cv2.VideoWriter('output.avi', fourcc, 20.0, (int(width), int(height)))
+        self.is_recording = True
+        Thread(target = self.record_loop, args = ()).start()
+
+    def record_loop(self):
+        while self.is_recording:
+            frame = self.rgb_camera_get_frame()
+            self.out.write(frame)
+            # TODO: FPS setting here
+            time.sleep(0.05)
+
+    def stop_record(self):
+        self.is_recording = False
+        self.out.release()

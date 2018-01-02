@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Template_MainGUI.ui'
+# Form implementation generated from reading ui file '.\Template_MainGui.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -13,12 +13,12 @@ class Ui_MainGui(object):
     def setupUi(self, MainGui):
         MainGui.setObjectName("MainGui")
         MainGui.resize(700, 500)
-        self.button_start_video = QtWidgets.QPushButton(MainGui)
-        self.button_start_video.setGeometry(QtCore.QRect(10, 460, 100, 30))
-        self.button_start_video.setObjectName("button_start_video")
-        self.button_stop_video = QtWidgets.QPushButton(MainGui)
-        self.button_stop_video.setGeometry(QtCore.QRect(120, 460, 100, 30))
-        self.button_stop_video.setObjectName("button_stop_video")
+        self.button_start_preview = QtWidgets.QPushButton(MainGui)
+        self.button_start_preview.setGeometry(QtCore.QRect(10, 460, 100, 30))
+        self.button_start_preview.setObjectName("button_start_preview")
+        self.button_stop_preview = QtWidgets.QPushButton(MainGui)
+        self.button_stop_preview.setGeometry(QtCore.QRect(120, 460, 100, 30))
+        self.button_stop_preview.setObjectName("button_stop_preview")
         self.label_videostream = QtWidgets.QLabel(MainGui)
         self.label_videostream.setGeometry(QtCore.QRect(30, 10, 640, 360))
         self.label_videostream.setText("")
@@ -32,6 +32,18 @@ class Ui_MainGui(object):
         self.button_stop_tracking = QtWidgets.QPushButton(MainGui)
         self.button_stop_tracking.setGeometry(QtCore.QRect(340, 460, 100, 30))
         self.button_stop_tracking.setObjectName("button_stop_tracking")
+        self.button_release_rgb_camera_videostream = QtWidgets.QPushButton(MainGui)
+        self.button_release_rgb_camera_videostream.setGeometry(QtCore.QRect(10, 420, 211, 30))
+        self.button_release_rgb_camera_videostream.setObjectName("button_release_rgb_camera_videostream")
+        self.button_release_infrared_camera_videostream = QtWidgets.QPushButton(MainGui)
+        self.button_release_infrared_camera_videostream.setGeometry(QtCore.QRect(230, 420, 211, 30))
+        self.button_release_infrared_camera_videostream.setObjectName("button_release_infrared_camera_videostream")
+        self.button_start_record = QtWidgets.QPushButton(MainGui)
+        self.button_start_record.setGeometry(QtCore.QRect(10, 380, 100, 30))
+        self.button_start_record.setObjectName("button_start_record")
+        self.button_stop_record = QtWidgets.QPushButton(MainGui)
+        self.button_stop_record.setGeometry(QtCore.QRect(120, 380, 100, 30))
+        self.button_stop_record.setObjectName("button_stop_record")
 
         self.retranslateUi(MainGui)
         QtCore.QMetaObject.connectSlotsByName(MainGui)
@@ -39,10 +51,14 @@ class Ui_MainGui(object):
     def retranslateUi(self, MainGui):
         _translate = QtCore.QCoreApplication.translate
         MainGui.setWindowTitle(_translate("MainGui", "Form"))
-        self.button_start_video.setText(_translate("MainGui", "Start Video"))
-        self.button_stop_video.setText(_translate("MainGui", "Stop Video"))
+        self.button_start_preview.setText(_translate("MainGui", "Start Preview"))
+        self.button_stop_preview.setText(_translate("MainGui", "Stop Preview"))
         self.button_start_tracking.setText(_translate("MainGui", "Start Tracking"))
         self.button_stop_tracking.setText(_translate("MainGui", "Stop Tracking"))
+        self.button_release_rgb_camera_videostream.setText(_translate("MainGui", "Release RGB Camera videostream"))
+        self.button_release_infrared_camera_videostream.setText(_translate("MainGui", "Release Infrared Camera videostream"))
+        self.button_start_record.setText(_translate("MainGui", "Start Record"))
+        self.button_stop_record.setText(_translate("MainGui", "Stop Preview"))
 
 
 if __name__ == "__main__":

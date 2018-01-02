@@ -18,10 +18,29 @@ class View():
         self.main_gui.show()
 
     def main_gui_setup_ui_slots(self):
-        self.main_gui.button_start_video.clicked.connect(self.controller.start_video_preview)
-        self.main_gui.button_stop_video.clicked.connect(self.controller.stop_video_preview)
+        ############################################################
+        # Preview
+        ############################################################
+        self.main_gui.button_start_preview.clicked.connect(self.controller.start_video_preview)
+        self.main_gui.button_stop_preview.clicked.connect(self.controller.stop_video_preview)
+
+        ############################################################
+        # Tracking
+        ############################################################
         self.main_gui.button_start_tracking.clicked.connect(self.controller.start_tracking)
         self.main_gui.button_stop_tracking.clicked.connect(self.controller.stop_tracking)
+
+        ############################################################
+        # Release Videostream
+        ############################################################
+        self.main_gui.button_release_rgb_camera_videostream.clicked.connect(self.controller.release_rgb_camera_videostream)
+        self.main_gui.button_release_infrared_camera_videostream.clicked.connect(self.controller.release_infrared_camera_videostream)
+
+        ############################################################
+        # Recording
+        ############################################################
+        self.main_gui.button_start_record.clicked.connect(self.controller.start_record)
+        self.main_gui.button_stop_record.clicked.connect(self.controller.stop_record)
 
     def main_gui_set_label_videostream_frame(self, pixmap):
         self.main_gui.label_videostream.setPixmap(pixmap)

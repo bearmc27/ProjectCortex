@@ -13,7 +13,7 @@
         <property name="windowTitle">
             <string>Form</string>
         </property>
-        <widget class="QPushButton" name="button_start_video">
+        <widget class="QPushButton" name="button_start_preview">
             <property name="geometry">
                 <rect>
                     <x>10</x>
@@ -23,10 +23,10 @@
                 </rect>
             </property>
             <property name="text">
-                <string>Start Video</string>
+                <string>Start Preview</string>
             </property>
         </widget>
-        <widget class="QPushButton" name="button_stop_video">
+        <widget class="QPushButton" name="button_stop_preview">
             <property name="geometry">
                 <rect>
                     <x>120</x>
@@ -36,7 +36,7 @@
                 </rect>
             </property>
             <property name="text">
-                <string>Stop Video</string>
+                <string>Stop Preview</string>
             </property>
         </widget>
         <widget class="QLabel" name="label_videostream">
@@ -85,6 +85,58 @@
             </property>
             <property name="text">
                 <string>Stop Tracking</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_release_rgb_camera_videostream">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>420</y>
+                    <width>211</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Release RGB Camera videostream</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_release_infrared_camera_videostream">
+            <property name="geometry">
+                <rect>
+                    <x>230</x>
+                    <y>420</y>
+                    <width>211</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Release Infrared Camera videostream</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_start_record">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>380</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Start Record</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="button_stop_record">
+            <property name="geometry">
+                <rect>
+                    <x>120</x>
+                    <y>380</y>
+                    <width>100</width>
+                    <height>30</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Stop Preview</string>
             </property>
         </widget>
     </widget>
