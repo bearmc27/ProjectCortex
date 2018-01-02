@@ -26,7 +26,7 @@ AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the UL
 
 char buffer;
 int index = 0;
-int serialInt[8 + 1];
+int serialInt[9 + 1];
 int packageType;
 int dx;
 int dy;
@@ -84,7 +84,7 @@ void serialEvent()
             // Convert from ASCII to int and put it into the array
             serialInt[index] = buffer - 48;
             index++;
-            if (index == 8)
+            if (index == 9)
             {
                 index = 0;
 
