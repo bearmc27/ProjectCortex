@@ -1,11 +1,6 @@
 from __future__ import print_function
 
-# from TrackingSystem import TrackingSystem as tracking_sys
-import sys
-
-from PyQt5.QtWidgets import QApplication
-
-from GUI.Controller import GUI_Controller
+from TrackingSystem import TrackingSystem as tracking_sys
 
 """
 Objective:
@@ -15,12 +10,12 @@ Objective:
 
 
 def main():
-    # tracking_system = tracking_sys.TrackingSystem()
+    tracking_system = tracking_sys.TrackingSystem()
 
-    gui_controller = GUI_Controller()
-    GUI_Controller.change_text(new_text = "HAHA")
-
-    sys.exit(GUI_Controller.get_app().exec())
+    # gui_controller = GUI_Controller()
+    # GUI_Controller.change_text(new_text = "HAHA")
+    #
+    # sys.exit(GUI_Controller.get_app().exec())
 
 
 if __name__ == '__main__':

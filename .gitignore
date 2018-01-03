@@ -50,3 +50,5 @@ crashlytics-build.properties
 fabric.properties
 Arduino/.vscode/
 ProjectCortexCore/.idea/workspace.xml
+ProjectCortexCoreV1/.idea/workspace.xml
+ProjectCortexCoreV2/.idea/workspace.xml
