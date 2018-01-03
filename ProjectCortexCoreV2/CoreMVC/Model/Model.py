@@ -15,11 +15,13 @@ class Model():
     def __init__(self):
         # TODO: move these codes to other place
         # Defines the effective range(boarder), helps avoid tiny noise movement
-        self.effective_x = 8
-        self.effective_y = 8
+        self.effective_x = 5
+        self.effective_y = 5
 
         self.ratio_x = 1.0
-        self.ratio_y = 1.25
+        self.ratio_y = 1.0
+
+        self.record_fps = 1 / 30
 
         self.serial_model = None
         self.rgb_camera = RgbCamera()
@@ -46,6 +48,7 @@ class Model():
     ############################################################
     def create_rgb_camera_videostream(self, camera_index):
         self.rgb_camera.create_videostream(camera_index = camera_index)
+        self.rgb_camera.set_videostream_resolution(width = 1280, height = 720)
 
     def rgb_camera_get_frame(self):
         return self.rgb_camera.get_frame()
@@ -61,6 +64,7 @@ class Model():
     ############################################################
     def create_infrared_camera_videostream(self, camera_index):
         self.infrared_camera.create_videostream(camera_index = camera_index)
+        self.infrared_camera.set_videostream_resolution(width = 640, height = 360)
 
     def infrared_camera_get_frame(self):
         return self.infrared_camera.get_frame()
@@ -112,7 +116,7 @@ class Model():
         while self.is_tracking:
             # Get a frame from camera and resize(downsize) it
             frame = self.infrared_camera_get_frame()
-            frame = imutils.resize(frame, width = 360)
+            frame = imutils.resize(frame, width = 320)
 
             # Process the frame
             ir_result = self.infrared_camera.process(frame = frame)
@@ -126,8 +130,8 @@ class Model():
                     # Calculate the distance from center to target, in X-axis and Y-axis
                     # dx = math.floor((int(ir_result['x']) - 200) * self.ratio)
                     # dy = math.floor((int(ir_result['y']) - 150) * self.ratio)
-                    dx = int(ir_result['x']) - 180
-                    dy = int(ir_result['y']) - 180
+                    dx = int(ir_result['x']) - 160
+                    dy = int(ir_result['y']) - 160
 
                     # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
@@ -171,19 +175,20 @@ class Model():
     ############################################################
     def start_record(self):
         # TODO: Relocate these code
-        fourcc = cv2.VideoWriter_fourcc(*'DIVX')
+        fourcc = cv2.VideoWriter_fourcc("X","V","I","D")
         width, height = self.rgb_camera.get_videostream_resolution()
-        self.out = cv2.VideoWriter('output.avi', fourcc, 20.0, (int(width), int(height)))
+        self.out = cv2.VideoWriter("output.avi", fourcc, 20.0, (int(width), int(height)))
         self.is_recording = True
+        self.rgb_camera.add_in_use()
         Thread(target = self.record_loop, args = ()).start()
 
     def record_loop(self):
         while self.is_recording:
-            frame = self.rgb_camera_get_frame()
-            self.out.write(frame)
-            # TODO: FPS setting here
-            time.sleep(0.05)
+            if self.out.isOpened():
+                frame = self.rgb_camera_get_frame()
+                self.out.write(frame)
 
     def stop_record(self):
         self.is_recording = False
+        self.rgb_camera.reduce_in_use()
         self.out.release()

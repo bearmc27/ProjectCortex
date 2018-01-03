@@ -40,10 +40,10 @@ void setup()
 
     // Stepper1 Testing
     stepper1.setMaxSpeed(2048);
-    stepper1.setAcceleration(1536);
+    stepper1.setAcceleration(1024);
     // Stepper2 Testing
     stepper2.setMaxSpeed(2048);
-    stepper2.setAcceleration(1536);
+    stepper2.setAcceleration(1024);
 }
 
 // Continuously running until power off

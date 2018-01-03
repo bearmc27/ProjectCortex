@@ -25,13 +25,14 @@ class Controller():
     ############################################################
     def start_tracking(self):
         print("Start Video Tracking")
-        # if self.model.create_serial_model(57600, "COM6"):
+        # TODO: make sure serial model actually created and running
+        # self.model.create_serial_model(57600, "COM8")
         self.model.create_infrared_camera_videostream(camera_index = 1)
         self.model.start_tracking()
 
     def stop_tracking(self):
         print("Stop Video Tracking")
-        # self.model.infrared_camera_stop_videostream()
+        self.model.infrared_camera_stop_videostream()
         self.model.stop_tracking()
 
     ############################################################
@@ -50,6 +51,7 @@ class Controller():
     ############################################################
     def start_record(self):
         print("Start Record")
+        self.model.create_rgb_camera_videostream(camera_index = 2)
         self.model.start_record()
 
     def stop_record(self):

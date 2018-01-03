@@ -1,162 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>MainGui</class>
-    <widget class="QWidget" name="MainGui">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>700</width>
-                <height>500</height>
-            </rect>
-        </property>
-        <property name="windowTitle">
-            <string>Form</string>
-        </property>
-        <widget class="QPushButton" name="button_start_preview">
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>460</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Start Preview</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_stop_preview">
-            <property name="geometry">
-                <rect>
-                    <x>120</x>
-                    <y>460</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Stop Preview</string>
-            </property>
-        </widget>
-        <widget class="QLabel" name="label_videostream">
-            <property name="geometry">
-                <rect>
-                    <x>30</x>
-                    <y>10</y>
-                    <width>640</width>
-                    <height>360</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string/>
-            </property>
-            <property name="pixmap">
-                <pixmap>../../../../../Users/man_k/Desktop/sample_picture_1080p.jpg</pixmap>
-            </property>
-            <property name="scaledContents">
-                <bool>true</bool>
-            </property>
-            <property name="alignment">
-                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_start_tracking">
-            <property name="geometry">
-                <rect>
-                    <x>230</x>
-                    <y>460</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Start Tracking</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_stop_tracking">
-            <property name="geometry">
-                <rect>
-                    <x>340</x>
-                    <y>460</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Stop Tracking</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_release_rgb_camera_videostream">
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>420</y>
-                    <width>211</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Release RGB Camera videostream</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_release_infrared_camera_videostream">
-            <property name="geometry">
-                <rect>
-                    <x>230</x>
-                    <y>420</y>
-                    <width>211</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Release Infrared Camera videostream</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_start_record">
-            <property name="geometry">
-                <rect>
-                    <x>10</x>
-                    <y>380</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Start Record</string>
-            </property>
-        </widget>
-        <widget class="QPushButton" name="button_stop_record">
-            <property name="geometry">
-                <rect>
-                    <x>120</x>
-                    <y>380</y>
-                    <width>100</width>
-                    <height>30</height>
-                </rect>
-            </property>
-            <property name="text">
-                <string>Stop Preview</string>
-            </property>
-        </widget>
-    </widget>
-    <resources/>
-    <connections/>
-    <designerdata>
-        <property name="gridDeltaX">
-            <number>10</number>
-        </property>
-        <property name="gridDeltaY">
-            <number>10</number>
-        </property>
-        <property name="gridSnapX">
-            <bool>true</bool>
-        </property>
-        <property name="gridSnapY">
-            <bool>true</bool>
-        </property>
-        <property name="gridVisible">
-            <bool>true</bool>
-        </property>
-    </designerdata>
+ <class>MainGui</class>
+ <widget class="QWidget" name="MainGui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>700</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="button_start_preview">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>460</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start Preview</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_stop_preview">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>460</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop Preview</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_videostream">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>10</y>
+     <width>640</width>
+     <height>360</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>../../../../../Users/man_k/Desktop/sample_picture_1080p.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_start_tracking">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>460</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start Tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_stop_tracking">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>460</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop Tracking</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_release_rgb_camera_videostream">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>420</y>
+     <width>211</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Release RGB Camera videostream</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_release_infrared_camera_videostream">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>420</y>
+     <width>211</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Release Infrared Camera videostream</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_start_record">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>380</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start Record</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_stop_record">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>380</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop Recording</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>10</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>10</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
 </ui>

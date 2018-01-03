@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\Template_MainGui.ui'
+# Form implementation generated from reading ui file '.\Template_MainGUI.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainGui(object):
     def setupUi(self, MainGui):
@@ -24,7 +23,7 @@ class Ui_MainGui(object):
         self.label_videostream.setText("")
         self.label_videostream.setPixmap(QtGui.QPixmap("../../../../../Users/man_k/Desktop/sample_picture_1080p.jpg"))
         self.label_videostream.setScaledContents(True)
-        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.label_videostream.setObjectName("label_videostream")
         self.button_start_tracking = QtWidgets.QPushButton(MainGui)
         self.button_start_tracking.setGeometry(QtCore.QRect(230, 460, 100, 30))
@@ -58,15 +57,15 @@ class Ui_MainGui(object):
         self.button_release_rgb_camera_videostream.setText(_translate("MainGui", "Release RGB Camera videostream"))
         self.button_release_infrared_camera_videostream.setText(_translate("MainGui", "Release Infrared Camera videostream"))
         self.button_start_record.setText(_translate("MainGui", "Start Record"))
-        self.button_stop_record.setText(_translate("MainGui", "Stop Preview"))
+        self.button_stop_record.setText(_translate("MainGui", "Stop Recording"))
 
 
 if __name__ == "__main__":
     import sys
-
     app = QtWidgets.QApplication(sys.argv)
     MainGui = QtWidgets.QWidget()
     ui = Ui_MainGui()
     ui.setupUi(MainGui)
     MainGui.show()
     sys.exit(app.exec_())
+

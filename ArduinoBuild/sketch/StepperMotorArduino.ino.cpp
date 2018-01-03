@@ -7,7 +7,7 @@
 #define HALFSTEP 8
 #define ONE_REVOLUTION 4096
 #define MAX_SPEED 2048
-#define ACCELERATION 1536
+#define ACCELERATION 1024
 
 // Motor pin definitions (Stepper motor 1)(X-Axis))
 #define STEPPER_MOTOR1_PIN1 3 // IN1 on the ULN2003 driver 1

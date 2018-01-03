@@ -6,7 +6,7 @@ class SerialModel:
         self.ser = serial.Serial()
         self.ser.baudrate = baudrate
         self.ser.port = port
-        # self.ser.open()
+        self.ser.open()
 
     def set_baudrate(self, baudrate):
         self.ser.baudrate = baudrate

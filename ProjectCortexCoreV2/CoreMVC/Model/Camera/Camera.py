@@ -15,30 +15,30 @@ class Camera():
         if self.videostream == None:
             self.videostream = Videostream(camera_index = camera_index)
         else:
-            print("Video Stream already exist, cannot create videostream")
+            print("Videostream already exist, cannot create videostream")
 
     def start_stream(self):
         if self.videostream == None:
-            print("Video Stream not yet create, cannot start videostream")
+            print("Videostream not yet create, cannot start videostream")
         else:
             self.videostream.start_stream()
 
     def stop_stream(self):
         if self.videostream == None:
-            print("Video Stream not yet create, cannot stop videostream")
+            print("Videostream not yet create, cannot stop videostream")
         else:
             self.videostream.stop_stream()
 
     def get_frame(self):
         if self.videostream == None:
-            print("Video Stream not yet create, cannot get frame")
+            print("Videostream not yet create, cannot get frame")
             return None
         else:
             return self.videostream.get_frame()
 
     def release_videostream(self):
         if self.videostream == None:
-            print("Video Stream not yet create, cannot release videostream")
+            print("Videostream not yet create, cannot release videostream")
         else:
             if self.videostream_number_in_use > 0:
                 print(str(self.videostream_number_in_use) + " thread(s) is using this videostream, cannot release videostream")
@@ -53,25 +53,29 @@ class Camera():
 
     def get_videostream_resolution(self):
         if self.videostream == None:
-            print("Video Stream not yet create, cannot get videostream resolution")
+            print("Videostream not yet create, cannot get videostream resolution")
         else:
             return self.videostream.get_videostream_resolution()
+
+    def set_videostream_resolution(self, width, height):
+        if self.videostream == None:
+            print("Videostream not yet create, cannot set videostream resolution")
+        else:
+            return self.videostream.set_videostream_resolution(width = width, height = height)
 
 
 class Videostream():
     def __init__(self, camera_index):
         self.camera_index = camera_index
         self.videostream = cv2.VideoCapture(self.camera_index)
-        self.videostream.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-        self.videostream.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
 
         # Do a test frame reading
         (self.grabbed, self.frame) = self.videostream.read()
 
+    def start_stream(self):
         # Default flag set to False (Thread running)
         self.is_videostreaming = True
 
-    def start_stream(self):
         # Start the thread to read frames from web cam video stream
         Thread(target = self.run, args = ()).start()
 
@@ -96,3 +100,7 @@ class Videostream():
         width = self.videostream.get(cv2.CAP_PROP_FRAME_WIDTH)
         height = self.videostream.get(cv2.CAP_PROP_FRAME_HEIGHT)
         return width, height
+
+    def set_videostream_resolution(self, width, height):
+        self.videostream.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+        self.videostream.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
