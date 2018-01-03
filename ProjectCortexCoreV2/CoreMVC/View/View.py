@@ -31,10 +31,10 @@ class View():
         self.main_gui.button_stop_tracking.clicked.connect(self.controller.stop_tracking)
 
         ############################################################
-        # Release Videostream
+        # Release Videostream (Deprecated)
         ############################################################
-        self.main_gui.button_release_rgb_camera_videostream.clicked.connect(self.controller.release_rgb_camera_videostream)
-        self.main_gui.button_release_infrared_camera_videostream.clicked.connect(self.controller.release_infrared_camera_videostream)
+        self.main_gui.button_release_rgb_camera_videostream.setDisabled(True)
+        self.main_gui.button_release_infrared_camera_videostream.setDisabled(True)
 
         ############################################################
         # Recording

@@ -9,8 +9,8 @@ class InfraredCamera(Camera):
     Include infrared camera logic model
     """
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self,camera_index):
+        super().__init__(camera_index = camera_index)
 
     ############################################################
     # Processing Logic
