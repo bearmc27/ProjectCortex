@@ -24,7 +24,7 @@ class Controller():
     def start_tracking(self):
         print("Start Video Tracking")
         # TODO: make sure serial model actually created and running
-        # self.model.create_serial_model(57600, "COM8")
+        self.model.create_serial_model(57600, "COM9")
         self.model.start_tracking()
 
     def stop_tracking(self):
@@ -47,5 +47,4 @@ class Controller():
     ############################################################
     def main_gui_closeEvent(self):
         # Terminate all thread, if any
-        # TODO: Call function from Model
-        pass
+        self.model.main_gui_closeEvent()

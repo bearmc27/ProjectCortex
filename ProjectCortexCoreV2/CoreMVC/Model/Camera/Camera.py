@@ -11,7 +11,7 @@ class Camera():
         self.video_out = None
 
         # Do a test frame reading
-        (self.grabbed, self.frame) = self.videostream.read()
+        ret, frame = self.videostream.read()
 
         # TODO: check self.grabbed to see videostream setup correctly
 
