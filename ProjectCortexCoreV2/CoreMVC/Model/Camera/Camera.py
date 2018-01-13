@@ -10,8 +10,12 @@ class Camera():
         self.is_recording = False
         self.video_out = None
 
+        self.is_recording = False
+
         # Do a test frame reading
         ret, frame = self.videostream.read()
+        print(ret)
+
 
         # TODO: check self.grabbed to see videostream setup correctly
 
@@ -37,8 +41,11 @@ class Camera():
         self.video_out = cv2.VideoWriter(video_path, codex, fps, (int(width), int(height)))
 
     def start_record(self):
-        self.is_recording = True
-        Thread(target = self.record_loop, args = ()).start()
+        if self.is_recording:
+            print("Already Recording")
+        else:
+            self.is_recording = True
+            Thread(target = self.record_loop, args = ()).start()
 
     def stop_record(self):
         self.is_recording = False

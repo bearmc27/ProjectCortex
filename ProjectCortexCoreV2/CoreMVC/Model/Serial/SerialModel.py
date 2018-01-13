@@ -3,16 +3,27 @@ import serial
 
 class SerialModel:
     def __init__(self, baudrate, port):
+        self.port=port
+        self.baudrate=baudrate
+
         self.ser = serial.Serial()
-        self.ser.baudrate = baudrate
-        self.ser.port = port
+        self.ser.baudrate = self.baudrate
+        self.ser.port = self.port
         self.ser.open()
 
     def set_baudrate(self, baudrate):
-        self.ser.baudrate = baudrate
+        self.baudrate=baudrate
+        self.ser.baudrate = self.baudrate
 
     def set_port(self, port):
-        self.ser.port = port
+        self.port=port
+        self.ser.port = self.port
+
+    def get_baudrate(self):
+        return self.baudrate
+
+    def get_port(self):
+        return self.port
 
     def close_serial(self):
         self.ser.close()

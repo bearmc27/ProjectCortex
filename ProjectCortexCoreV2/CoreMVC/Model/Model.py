@@ -21,14 +21,16 @@ class Model():
         self.ratio_x = 1.0
         self.ratio_y = 1.0
 
-        self.record_fps = 1 / 30
-
         self.serial_model = None
+
         self.rgb_camera = RgbCamera(camera_index = 2)
         self.infrared_camera = InfraredCamera(camera_index = 0)
 
         self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
         self.infrared_camera.set_videostream_resolution(width = 640, height = 360)
+
+        self.is_previewing = False
+        self.is_tracking = False
 
     def set_controller(self, controller):
         self.controller = controller
@@ -40,6 +42,7 @@ class Model():
         self.stop_record()
         self.stop_tracking()
         self.stop_video_preview()
+        # TODO: check if the thread is stopped, then Cameras=None
         self.rgb_camera = None
         self.infrared_camera = None
 
@@ -47,8 +50,11 @@ class Model():
     # Serial
     ############################################################
     def create_serial_model(self, baudrate, port):
-        self.serial_model = SerialModel(baudrate = baudrate, port = port)
-        return True
+        if self.serial_model == None:
+            self.serial_model = SerialModel(baudrate = baudrate, port = port)
+        else:
+            print("test")
+            print("Serial Model Already Created @" + str(self.serial_model.get_port()) + " " + str(self.serial_model.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):
         self.serial_model.send_serial_message(message = message)
@@ -69,8 +75,11 @@ class Model():
     # Video Preview
     ############################################################
     def start_video_preview(self):
-        self.is_previewing = True
-        Thread(target = self.view_preview_loop, args = ()).start()
+        if self.is_previewing:
+            print("Already Previewing")
+        else:
+            self.is_previewing = True
+            Thread(target = self.view_preview_loop, args = ()).start()
 
     def stop_video_preview(self):
         self.is_previewing = False
@@ -94,8 +103,11 @@ class Model():
     # Tracking
     ############################################################
     def start_tracking(self):
-        self.is_tracking = True
-        Thread(target = self.tracking_loop, args = ()).start()
+        if self.is_tracking:
+            print("Already Tracking")
+        else:
+            self.is_tracking = True
+            Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
         self.is_tracking = False
