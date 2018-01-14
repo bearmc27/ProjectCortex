@@ -21,14 +21,16 @@ class Model():
         self.ratio_x = 1.0
         self.ratio_y = 1.0
 
-        self.record_fps = 1 / 30
-
         self.serial_model = None
-        self.rgb_camera = RgbCamera(camera_index = 2)
-        self.infrared_camera = InfraredCamera(camera_index = 1)
 
-        self.rgb_camera.set_videostream_resolution(width = 1280, height = 720)
-        self.rgb_camera.set_videostream_resolution(width = 640, height = 360)
+        self.rgb_camera = RgbCamera(camera_index = 2)
+        self.infrared_camera = InfraredCamera(camera_index = 0)
+
+        self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
+        self.infrared_camera.set_videostream_resolution(width = 640, height = 360)
+
+        self.is_previewing = False
+        self.is_tracking = False
 
     def set_controller(self, controller):
         self.controller = controller
@@ -36,12 +38,23 @@ class Model():
     def set_view(self, view):
         self.view = view
 
+    def main_gui_closeEvent(self):
+        self.stop_record()
+        self.stop_tracking()
+        self.stop_video_preview()
+        # TODO: check if the thread is stopped, then Cameras=None
+        self.rgb_camera = None
+        self.infrared_camera = None
+
     ############################################################
     # Serial
     ############################################################
     def create_serial_model(self, baudrate, port):
-        self.serial_model = SerialModel(baudrate = baudrate, port = port)
-        return True
+        if self.serial_model == None:
+            self.serial_model = SerialModel(baudrate = baudrate, port = port)
+        else:
+            print("test")
+            print("Serial Model Already Created @" + str(self.serial_model.get_port()) + " " + str(self.serial_model.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):
         self.serial_model.send_serial_message(message = message)
@@ -62,8 +75,11 @@ class Model():
     # Video Preview
     ############################################################
     def start_video_preview(self):
-        self.is_previewing = True
-        Thread(target = self.view_preview_loop, args = ()).start()
+        if self.is_previewing:
+            print("Already Previewing")
+        else:
+            self.is_previewing = True
+            Thread(target = self.view_preview_loop, args = ()).start()
 
     def stop_video_preview(self):
         self.is_previewing = False
@@ -87,8 +103,11 @@ class Model():
     # Tracking
     ############################################################
     def start_tracking(self):
-        self.is_tracking = True
-        Thread(target = self.tracking_loop, args = ()).start()
+        if self.is_tracking:
+            print("Already Tracking")
+        else:
+            self.is_tracking = True
+            Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
         self.is_tracking = False
@@ -97,8 +116,8 @@ class Model():
         while self.is_tracking:
             # Get a frame from camera
             ret, frame = self.infrared_camera_get_frame()
-            if ret:
 
+            if ret:
                 # Resize(downsize) the frame for better processing performance
                 frame = imutils.resize(frame, width = 320)
 
@@ -151,8 +170,8 @@ class Model():
                             # print("Sent Message: " + message)
 
                             # Send message
-                            # self.send_serial_message(message = message)
-                            print(message)
+                            self.send_serial_message(message = message)
+                            # print(message)
             else:
                 print("Tracking ended with ret=False")
                 self.is_tracking = False
@@ -162,8 +181,8 @@ class Model():
     ############################################################
     def start_record(self):
         # TODO: Relocate these code
-        fourcc_codex = cv2.VideoWriter_fourcc(*"FFV1")
-        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "output.avi", fps = 30.0)
+        fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
+        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "output.avi", fps = 30)
         self.rgb_camera.start_record()
 
     def stop_record(self):
