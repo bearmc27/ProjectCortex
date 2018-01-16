@@ -48,11 +48,11 @@
      <height>360</height>
     </rect>
    </property>
+   <property name="autoFillBackground">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string/>
-   </property>
-   <property name="pixmap">
-    <pixmap>../../../../../Users/man_k/Desktop/sample_picture_1080p.jpg</pixmap>
    </property>
    <property name="scaledContents">
     <bool>true</bool>
