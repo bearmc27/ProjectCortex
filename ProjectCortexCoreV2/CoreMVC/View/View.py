@@ -31,12 +31,6 @@ class View():
         self.main_gui.button_stop_tracking.clicked.connect(self.controller.stop_tracking)
 
         ############################################################
-        # Release Videostream (Deprecated)
-        ############################################################
-        self.main_gui.button_release_rgb_camera_videostream.setDisabled(True)
-        self.main_gui.button_release_infrared_camera_videostream.setDisabled(True)
-
-        ############################################################
         # Recording
         ############################################################
         self.main_gui.button_start_record.clicked.connect(self.controller.start_record)
@@ -44,3 +38,6 @@ class View():
 
     def main_gui_set_label_videostream_frame(self, pixmap):
         self.main_gui.label_videostream.setPixmap(pixmap)
+
+    def main_gui_clear_label_videostream_frame(self):
+        self.main_gui.label_videostream.clear()

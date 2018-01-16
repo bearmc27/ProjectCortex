@@ -23,7 +23,7 @@ class Model():
 
         self.serial_model = None
 
-        self.rgb_camera = RgbCamera(camera_index = 2)
+        self.rgb_camera = RgbCamera(camera_index = 0)
         self.infrared_camera = InfraredCamera(camera_index = 0)
 
         self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
@@ -94,10 +94,11 @@ class Model():
 
                 self.view.main_gui_set_label_videostream_frame(pixmap = pix)
 
-                time.sleep(0.05)
             else:
                 print("Preview ended with ret=False")
                 self.is_previewing = False
+
+        self.view.main_gui_clear_label_videostream_frame()
 
     ############################################################
     # Tracking
