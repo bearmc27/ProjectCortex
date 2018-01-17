@@ -37,6 +37,11 @@ class View():
         self.main_gui.button_stop_record.clicked.connect(self.controller.stop_record)
 
         ############################################################
+        # Serial
+        ############################################################
+        self.main_gui.button_create_serial_model.clicked.connect(self.controller.create_serial_model)
+
+        ############################################################
         # Manual Control
         ############################################################
 

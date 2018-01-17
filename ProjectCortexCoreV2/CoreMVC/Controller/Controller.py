@@ -4,6 +4,13 @@ class Controller():
         self.model = model
 
     ############################################################
+    # Serial
+    ############################################################
+    def create_serial_model(self):
+        print("Create Serial Model")
+        self.model.create_serial_model(baudrate = 57600, port = "COM7")
+
+    ############################################################
     # Preview
     ############################################################
     def start_video_preview(self):
@@ -20,8 +27,6 @@ class Controller():
     def start_tracking(self):
         print("Start Video Tracking")
         # TODO: make sure serial model actually created and running
-        # TODO: If the serial model already exist, no need to create again.
-        self.model.create_serial_model(57600, "COM7")
         self.model.start_tracking()
 
     def stop_tracking(self):
@@ -55,13 +60,17 @@ class Controller():
     ############################################################
 
     def manual_gimbal_up(self):
+        print("Manual Gimbal Up")
         self.model.manual_gimbal_up()
 
     def manual_gimbal_down(self):
+        print("Manual Gimbal Down")
         self.model.manual_gimbal_down()
 
     def manual_gimbal_left(self):
+        print("Manual Gimbal Left")
         self.model.manual_gimbal_left()
 
     def manual_gimbal_right(self):
+        print("Manual Gimbal Right")
         self.model.manual_gimbal_right()

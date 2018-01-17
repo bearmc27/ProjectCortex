@@ -71,19 +71,23 @@ class Ui_MainGui(object):
         self.combobox_preview_camera_index_2 = QtWidgets.QComboBox(MainGui)
         self.combobox_preview_camera_index_2.setGeometry(QtCore.QRect(230, 460, 51, 31))
         self.combobox_preview_camera_index_2.setObjectName("combobox_preview_camera_index_2")
+        self.button_create_serial_model = QtWidgets.QPushButton(MainGui)
+        self.button_create_serial_model.setGeometry(QtCore.QRect(330, 460, 111, 23))
+        self.button_create_serial_model.setObjectName("button_create_serial_model")
 
         self.retranslateUi(MainGui)
         QtCore.QMetaObject.connectSlotsByName(MainGui)
 
     def retranslateUi(self, MainGui):
         _translate = QtCore.QCoreApplication.translate
-        MainGui.setWindowTitle(_translate("MainGui", "Form"))
+        MainGui.setWindowTitle(_translate("MainGui", "Project Cortex"))
         self.button_start_preview.setText(_translate("MainGui", "Start Preview"))
         self.button_stop_preview.setText(_translate("MainGui", "Stop Preview"))
         self.button_start_tracking.setText(_translate("MainGui", "Start Tracking"))
         self.button_stop_tracking.setText(_translate("MainGui", "Stop Tracking"))
         self.button_start_record.setText(_translate("MainGui", "Start Record"))
         self.button_stop_record.setText(_translate("MainGui", "Stop Recording"))
+        self.button_create_serial_model.setText(_translate("MainGui", "CreateSerialModel"))
 
 
 if __name__ == "__main__":

@@ -45,6 +45,10 @@ class Model():
         self.rgb_camera = None
         self.infrared_camera = None
 
+        if self.serial_model != None:
+            self.serial_model.close_serial()
+            self.serial_model = None
+
     ############################################################
     # Serial
     ############################################################
@@ -52,7 +56,6 @@ class Model():
         if self.serial_model == None:
             self.serial_model = SerialModel(baudrate = baudrate, port = port)
         else:
-            print("test")
             print("Serial Model Already Created @" + str(self.serial_model.get_port()) + " " + str(self.serial_model.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):

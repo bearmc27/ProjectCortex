@@ -26,6 +26,7 @@ class SerialModel:
         return self.port
 
     def close_serial(self):
+        print("Close Serial")
         self.ser.close()
 
     def is_serial_open(self):
