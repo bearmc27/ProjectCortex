@@ -21,7 +21,7 @@ class Controller():
         print("Start Video Tracking")
         # TODO: make sure serial model actually created and running
         # TODO: If the serial model already exist, no need to create again.
-        self.model.create_serial_model(57600, "COM6")
+        self.model.create_serial_model(57600, "COM7")
         self.model.start_tracking()
 
     def stop_tracking(self):
@@ -45,3 +45,23 @@ class Controller():
     def main_gui_closeEvent(self):
         # Terminate all thread, if any
         self.model.main_gui_closeEvent()
+
+    ############################################################
+    # Manual Control
+    ############################################################
+
+    ############################################################
+    # Manual Control - Gimbal Control
+    ############################################################
+
+    def manual_gimbal_up(self):
+        self.model.manual_gimbal_up()
+
+    def manual_gimbal_down(self):
+        self.model.manual_gimbal_down()
+
+    def manual_gimbal_left(self):
+        self.model.manual_gimbal_left()
+
+    def manual_gimbal_right(self):
+        self.model.manual_gimbal_right()

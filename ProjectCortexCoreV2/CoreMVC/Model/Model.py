@@ -1,5 +1,4 @@
 import math
-import time
 from threading import Thread
 
 import imutils
@@ -27,7 +26,7 @@ class Model():
         self.infrared_camera = InfraredCamera(camera_index = 0)
 
         self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
-        self.infrared_camera.set_videostream_resolution(width = 640, height = 360)
+        self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
 
         self.is_previewing = False
         self.is_tracking = False
@@ -172,7 +171,7 @@ class Model():
 
                             # Send message
                             self.send_serial_message(message = message)
-                            # print(message)
+                            print(message)
             else:
                 print("Tracking ended with ret=False")
                 self.is_tracking = False
@@ -188,3 +187,23 @@ class Model():
 
     def stop_record(self):
         self.rgb_camera.stop_record()
+
+    ############################################################
+    # Manual Control
+    ############################################################
+
+    ############################################################
+    # Manual Control - Gimbal Control
+    ############################################################
+
+    def manual_gimbal_up(self):
+        self.send_serial_message(message = "000000010;")
+
+    def manual_gimbal_down(self):
+        self.send_serial_message(message = "000002010;")
+
+    def manual_gimbal_left(self):
+        self.send_serial_message(message = "000100000;")
+
+    def manual_gimbal_right(self):
+        self.send_serial_message(message = "020100000;")

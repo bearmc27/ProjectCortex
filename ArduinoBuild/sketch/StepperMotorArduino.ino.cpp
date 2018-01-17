@@ -38,7 +38,7 @@ String input;
 void setup();
 #line 48 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 void loop();
-#line 75 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
+#line 83 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 void serialEvent();
 #line 34 "c:\\PersonalProject\\ProjectCortex\\StepperMotorArduino\\StepperMotorArduino.ino"
 void setup()
@@ -59,7 +59,15 @@ void loop()
 {
     // Stepper run a step
     stepper1.run();
-    stepper2.run();
+
+    if (!(stepper2.currentPosition() <= 0 && dy < 0))
+    {
+        stepper2.run();
+    }
+    else
+    {
+        stepper2.setSpeed(0);
+    }
 }
 
 // Old version using Serial.readStringUntil
