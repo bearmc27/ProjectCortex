@@ -1,6 +1,6 @@
 {
     "board": "arduino:avr:uno",
     "sketch": "StepperMotorArduino.ino",
-    "port": "COM7",
+    "port": "COM3",
     "output": "../ArduinoBuild"
 }

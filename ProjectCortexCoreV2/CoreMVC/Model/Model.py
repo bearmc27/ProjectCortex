@@ -7,6 +7,7 @@ from cv2 import cv2
 
 from CoreMVC.Model.Camera.InfraredCamera.InfraredCamera import InfraredCamera
 from CoreMVC.Model.Camera.RgbCamera.RgbCamera import RgbCamera
+from CoreMVC.Model.Serial.SerialConnection import SerialConnection
 from CoreMVC.Model.Serial.SerialModel import SerialModel
 
 
@@ -54,12 +55,17 @@ class Model():
     ############################################################
     def create_serial_model(self, baudrate, port):
         if self.serial_model == None:
-            self.serial_model = SerialModel(baudrate = baudrate, port = port)
+            self.serial_model = SerialConnection(baudrate = baudrate, port = port)
+
+
         else:
             print("Serial Model Already Created @" + str(self.serial_model.get_port()) + " " + str(self.serial_model.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):
         self.serial_model.send_serial_message(message = message)
+
+    def get_available_serial_ports(self):
+        return SerialModel.get_available_serial_ports()
 
     ############################################################
     # RGB Camera
@@ -109,8 +115,11 @@ class Model():
         if self.is_tracking:
             print("Already Tracking")
         else:
-            self.is_tracking = True
-            Thread(target = self.tracking_loop, args = ()).start()
+            if self.serial_model == None:
+                print("Serial Communication have not setup")
+            else:
+                self.is_tracking = True
+                Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
         self.is_tracking = False

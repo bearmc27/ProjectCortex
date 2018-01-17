@@ -8,7 +8,15 @@ class Controller():
     ############################################################
     def create_serial_model(self):
         print("Create Serial Model")
-        self.model.create_serial_model(baudrate = 57600, port = "COM7")
+        baudrate = 57600
+        port = str(self.view.get_combobox_serial_model_port_value())
+        self.model.create_serial_model(baudrate = baudrate, port = port)
+
+    def refresh_combobox_serial_connection_port(self):
+        print("Refresh ComboBox Serial Model Port")
+        ports = self.model.get_available_serial_ports()
+        self.view.set_combobox_serial_model_port_list([row[0] for row in ports])
+
 
     ############################################################
     # Preview

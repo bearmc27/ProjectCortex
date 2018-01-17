@@ -68,14 +68,23 @@ class Ui_MainGui(object):
         self.combobox_preview_camera_index = QtWidgets.QComboBox(MainGui)
         self.combobox_preview_camera_index.setGeometry(QtCore.QRect(230, 420, 51, 31))
         self.combobox_preview_camera_index.setObjectName("combobox_preview_camera_index")
-        self.combobox_preview_camera_index_2 = QtWidgets.QComboBox(MainGui)
-        self.combobox_preview_camera_index_2.setGeometry(QtCore.QRect(230, 460, 51, 31))
-        self.combobox_preview_camera_index_2.setObjectName("combobox_preview_camera_index_2")
-        self.button_create_serial_model = QtWidgets.QPushButton(MainGui)
-        self.button_create_serial_model.setGeometry(QtCore.QRect(330, 460, 111, 23))
-        self.button_create_serial_model.setObjectName("button_create_serial_model")
+        self.combobox_tracking_camera_index = QtWidgets.QComboBox(MainGui)
+        self.combobox_tracking_camera_index.setGeometry(QtCore.QRect(230, 460, 51, 31))
+        self.combobox_tracking_camera_index.setObjectName("combobox_tracking_camera_index")
+        self.button_create_serial_connection = QtWidgets.QPushButton(MainGui)
+        self.button_create_serial_connection.setGeometry(QtCore.QRect(10, 500, 131, 31))
+        self.button_create_serial_connection.setObjectName("button_create_serial_connection")
+        self.combobox_serial_connection_ports = QtWidgets.QComboBox(MainGui)
+        self.combobox_serial_connection_ports.setGeometry(QtCore.QRect(260, 500, 131, 31))
+        self.combobox_serial_connection_ports.setEditable(False)
+        self.combobox_serial_connection_ports.setCurrentText("")
+        self.combobox_serial_connection_ports.setObjectName("combobox_serial_connection_ports")
+        self.button_refresh_combobox_serial_connection_ports = QtWidgets.QPushButton(MainGui)
+        self.button_refresh_combobox_serial_connection_ports.setGeometry(QtCore.QRect(150, 500, 101, 31))
+        self.button_refresh_combobox_serial_connection_ports.setObjectName("button_refresh_combobox_serial_connection_ports")
 
         self.retranslateUi(MainGui)
+        self.combobox_serial_connection_ports.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(MainGui)
 
     def retranslateUi(self, MainGui):
@@ -87,7 +96,8 @@ class Ui_MainGui(object):
         self.button_stop_tracking.setText(_translate("MainGui", "Stop Tracking"))
         self.button_start_record.setText(_translate("MainGui", "Start Record"))
         self.button_stop_record.setText(_translate("MainGui", "Stop Recording"))
-        self.button_create_serial_model.setText(_translate("MainGui", "CreateSerialModel"))
+        self.button_create_serial_connection.setText(_translate("MainGui", "CreateSerialConnection"))
+        self.button_refresh_combobox_serial_connection_ports.setText(_translate("MainGui", "Refresh Serial Port"))
 
 
 if __name__ == "__main__":

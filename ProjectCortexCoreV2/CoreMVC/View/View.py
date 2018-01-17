@@ -39,7 +39,8 @@ class View():
         ############################################################
         # Serial
         ############################################################
-        self.main_gui.button_create_serial_model.clicked.connect(self.controller.create_serial_model)
+        self.main_gui.button_create_serial_connection.clicked.connect(self.controller.create_serial_connection)
+        self.main_gui.button_refresh_combobox_serial_connection_ports.clicked.connect(self.controller.refresh_combobox_serial_connection_port)
 
         ############################################################
         # Manual Control
@@ -54,8 +55,22 @@ class View():
         self.main_gui.button_manual_gimbal_left.clicked.connect(self.controller.manual_gimbal_left)
         self.main_gui.button_manual_gimbal_right.clicked.connect(self.controller.manual_gimbal_right)
 
+    ############################################################
+    # Preview
+    ############################################################
     def main_gui_set_label_videostream_frame(self, pixmap):
         self.main_gui.label_videostream.setPixmap(pixmap)
 
     def main_gui_clear_label_videostream_frame(self):
         self.main_gui.label_videostream.clear()
+
+    ############################################################
+    # Serial
+    ############################################################
+    def get_combobox_serial_connection_port_value(self):
+        return self.main_gui.combobox_serial_connection_ports_port.currentText()
+
+    def set_combobox_serial_connection_port_list(self,list):
+        self.main_gui.combobox_serial_connection_ports_port.clear()
+        self.main_gui.combobox_serial_connection_ports_port.addItems(list)
+

@@ -191,7 +191,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="combobox_preview_camera_index_2">
+  <widget class="QComboBox" name="combobox_tracking_camera_index">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -201,17 +201,49 @@
     </rect>
    </property>
   </widget>
-  <widget class="QPushButton" name="button_create_serial_model">
+  <widget class="QPushButton" name="button_create_serial_connection">
    <property name="geometry">
     <rect>
-     <x>330</x>
-     <y>460</y>
-     <width>111</width>
-     <height>23</height>
+     <x>10</x>
+     <y>500</y>
+     <width>131</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
-    <string>CreateSerialModel</string>
+    <string>CreateSerialConnection</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="combobox_serial_connection_ports">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>500</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentText">
+    <string/>
+   </property>
+   <property name="currentIndex">
+    <number>-1</number>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_refresh_combobox_serial_connection_ports">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>500</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh Serial Port</string>
    </property>
   </widget>
  </widget>
