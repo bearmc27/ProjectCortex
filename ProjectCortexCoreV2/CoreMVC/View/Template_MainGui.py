@@ -12,6 +12,13 @@ class Ui_MainGui(object):
     def setupUi(self, MainGui):
         MainGui.setObjectName("MainGui")
         MainGui.resize(660, 550)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainGui.sizePolicy().hasHeightForWidth())
+        MainGui.setSizePolicy(sizePolicy)
+        MainGui.setMinimumSize(QtCore.QSize(660, 550))
+        MainGui.setMaximumSize(QtCore.QSize(660, 550))
         self.button_start_preview = QtWidgets.QPushButton(MainGui)
         self.button_start_preview.setGeometry(QtCore.QRect(10, 420, 100, 30))
         self.button_start_preview.setObjectName("button_start_preview")

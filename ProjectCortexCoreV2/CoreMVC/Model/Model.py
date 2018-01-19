@@ -21,7 +21,7 @@ class Model():
         self.ratio_x = 1.0
         self.ratio_y = 1.0
 
-        self.serial_model = None
+        self.serial_connection = None
 
         self.rgb_camera = RgbCamera(camera_index = 0)
         self.infrared_camera = InfraredCamera(camera_index = 0)
@@ -35,34 +35,32 @@ class Model():
     def set_controller(self, controller):
         self.controller = controller
 
-    def set_view(self, view):
-        self.view = view
-
     def main_gui_closeEvent(self):
         self.stop_record()
         self.stop_tracking()
         self.stop_video_preview()
         # TODO: check if the thread is stopped, then Cameras=None
+        self.rgb_camera.release_camera()
         self.rgb_camera = None
+        self.infrared_camera.release_camera()
         self.infrared_camera = None
 
-        if self.serial_model != None:
-            self.serial_model.close_serial()
-            self.serial_model = None
+        if self.serial_connection != None:
+            self.serial_connection.close_serial()
+            self.serial_connection = None
 
     ############################################################
     # Serial
     ############################################################
-    def create_serial_model(self, baudrate, port):
-        if self.serial_model == None:
-            self.serial_model = SerialConnection(baudrate = baudrate, port = port)
-
+    def create_serial_connection(self, baudrate, port):
+        if self.serial_connection == None:
+            self.serial_connection = SerialConnection(baudrate = baudrate, port = port)
 
         else:
-            print("Serial Model Already Created @" + str(self.serial_model.get_port()) + " " + str(self.serial_model.get_baudrate()) + " baud")
+            print("Serial Model Already Created @" + str(self.serial_connection.get_port()) + " " + str(self.serial_connection.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):
-        self.serial_model.send_serial_message(message = message)
+        self.serial_connection.send_serial_message(message = message)
 
     def get_available_serial_ports(self):
         return SerialModel.get_available_serial_ports()
@@ -100,13 +98,13 @@ class Model():
                 img = QtGui.QImage(frame, frame.shape[1], frame.shape[0], QtGui.QImage.Format_RGB888)
                 pix = QtGui.QPixmap.fromImage(img)
 
-                self.view.main_gui_set_label_videostream_frame(pixmap = pix)
+                self.controller.main_gui_set_label_videostream_frame(pixmap = pix)
 
             else:
                 print("Preview ended with ret=False")
                 self.is_previewing = False
 
-        self.view.main_gui_clear_label_videostream_frame()
+        self.controller.main_gui_clear_label_videostream_frame()
 
     ############################################################
     # Tracking
@@ -115,7 +113,7 @@ class Model():
         if self.is_tracking:
             print("Already Tracking")
         else:
-            if self.serial_model == None:
+            if self.serial_connection == None:
                 print("Serial Communication have not setup")
             else:
                 self.is_tracking = True
@@ -194,7 +192,7 @@ class Model():
     def start_record(self):
         # TODO: Relocate these code
         fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
-        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "output.avi", fps = 30)
+        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
         self.rgb_camera.start_record()
 
     def stop_record(self):

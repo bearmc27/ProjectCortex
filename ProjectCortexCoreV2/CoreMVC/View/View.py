@@ -68,9 +68,9 @@ class View():
     # Serial
     ############################################################
     def get_combobox_serial_connection_port_value(self):
-        return self.main_gui.combobox_serial_connection_ports_port.currentText()
+        return self.main_gui.combobox_serial_connection_ports.currentText()
 
     def set_combobox_serial_connection_port_list(self,list):
-        self.main_gui.combobox_serial_connection_ports_port.clear()
-        self.main_gui.combobox_serial_connection_ports_port.addItems(list)
+        self.main_gui.combobox_serial_connection_ports.clear()
+        self.main_gui.combobox_serial_connection_ports.addItems(list)
 

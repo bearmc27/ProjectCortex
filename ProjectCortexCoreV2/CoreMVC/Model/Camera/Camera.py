@@ -40,6 +40,9 @@ class Camera():
         width, height = self.get_videostream_resolution()
         self.video_out = cv2.VideoWriter(video_path, codex, fps, (int(width), int(height)))
 
+    ############################################################
+    # Recording
+    ############################################################
     def start_record(self):
         if self.is_recording:
             print("Already Recording")
@@ -63,3 +66,9 @@ class Camera():
         self.video_out.release()
 
         # TODO: pro-recording work here, e.g. file naming...
+
+    ############################################################
+    # Other
+    ############################################################
+    def release_camera(self):
+        self.videostream.release()

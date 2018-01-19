@@ -26,7 +26,6 @@ def main():
     controller = Controller(view = view, model = model)
     view.set_controller(controller = controller)
     model.set_controller(controller = controller)
-    model.set_view(view = view)
 
     # Create MainGui
     view.main_gui_create()

@@ -6,17 +6,16 @@ class Controller():
     ############################################################
     # Serial
     ############################################################
-    def create_serial_model(self):
+    def create_serial_connection(self):
         print("Create Serial Model")
         baudrate = 57600
-        port = str(self.view.get_combobox_serial_model_port_value())
-        self.model.create_serial_model(baudrate = baudrate, port = port)
+        port = str(self.view.get_combobox_serial_connection_port_value())
+        self.model.create_serial_connection(baudrate = baudrate, port = port)
 
     def refresh_combobox_serial_connection_port(self):
         print("Refresh ComboBox Serial Model Port")
         ports = self.model.get_available_serial_ports()
-        self.view.set_combobox_serial_model_port_list([row[0] for row in ports])
-
+        self.view.set_combobox_serial_connection_port_list([row[0] for row in ports])
 
     ############################################################
     # Preview
@@ -28,6 +27,12 @@ class Controller():
     def stop_video_preview(self):
         print("Stop Video Preview")
         self.model.stop_video_preview()
+
+    def main_gui_set_label_videostream_frame(self, pixmap):
+        self.view.main_gui_set_label_videostream_frame(pixmap)
+
+    def main_gui_clear_label_videostream_frame(self):
+        self.view.main_gui_clear_label_videostream_frame()
 
     ############################################################
     # Tracking
