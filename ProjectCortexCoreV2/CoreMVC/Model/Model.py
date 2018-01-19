@@ -5,8 +5,8 @@ import imutils
 from PyQt5 import QtGui
 from cv2 import cv2
 
-from CoreMVC.Model.Camera.InfraredCamera.InfraredCamera import InfraredCamera
-from CoreMVC.Model.Camera.RgbCamera.RgbCamera import RgbCamera
+from CoreMVC.Model.Camera.Camera import Camera
+from CoreMVC.Model.InfraredModel import InfraredModel
 from CoreMVC.Model.Serial.SerialConnection import SerialConnection
 from CoreMVC.Model.Serial.SerialModel import SerialModel
 
@@ -23,8 +23,8 @@ class Model():
 
         self.serial_connection = None
 
-        self.rgb_camera = RgbCamera(camera_index = 0)
-        self.infrared_camera = InfraredCamera(camera_index = 0)
+        self.rgb_camera = Camera(camera_index = 0)
+        self.infrared_camera = Camera(camera_index = 0)
 
         self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
         self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
@@ -132,7 +132,7 @@ class Model():
                 frame = imutils.resize(frame, width = 320)
 
                 # Process the frame
-                ir_result = self.infrared_camera.process(frame = frame)
+                ir_result = InfraredModel.process(frame = frame)
 
                 # If InfraredTracker find a target led
                 if ir_result != None:
