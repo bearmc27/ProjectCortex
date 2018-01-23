@@ -96,19 +96,27 @@ class Controller():
     ############################################################
     def setup_infrared_camera(self):
         print("Setup Infrared Camera")
-        index = int(self.view.get_combobox_infrared_camera_index_current_text())
-        if index == None:
+        index = self.view.get_combobox_infrared_camera_index_current_text()
+        if index is None:
             print("Infrared Camera Index Not Selected")
         else:
+            index = int(index)
             self.model.setup_infrared_camera(index = index)
+
+            # TODO: Remove these code
+            self.infrared_camera_set_resolution()
 
     def setup_rgb_camera(self):
         print("Setup RGB Camera")
-        index = int(self.view.get_combobox_rgb_camera_index_current_text())
-        if index == None:
+        index = self.view.get_combobox_rgb_camera_index_current_text()
+        if index is None:
             print("RGB Camera Index Not Selected")
         else:
+            index = int(index)
             self.model.setup_rgb_camera(index = index)
+
+            # TODO: Remove these code
+            self.rgb_camera_set_resolution()
 
     def refresh_combobox_camera_index_list(self):
         print("Refresh Combobox Infrared Camera Index")
@@ -116,8 +124,10 @@ class Controller():
         self.view.set_combobox_infrared_camera_index_list(list = available_camera_indexes)
         self.view.set_combobox_rgb_camera_index_list(list = available_camera_indexes)
 
-    def infrared_camera_set_resolution(self, width, height):
+    def infrared_camera_set_resolution(self, width = 320, height = 240):
         print("Set Infrared Camera Resolution")
-        width=320
-        height=240
-        self.model.resolution
+        self.model.infrared_camera_set_resolution(width = width, height = height)
+
+    def rgb_camera_set_resolution(self, width = 320, height = 240):
+        print("Set RGB Camera Resolution")
+        self.model.rgb_camera_set_resolution(width = width, height = height)

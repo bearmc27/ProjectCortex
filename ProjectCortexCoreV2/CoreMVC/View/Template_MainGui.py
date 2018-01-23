@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainGui(object):
     def setupUi(self, MainGui):
         MainGui.setObjectName("MainGui")
@@ -30,7 +31,7 @@ class Ui_MainGui(object):
         self.label_videostream.setAutoFillBackground(True)
         self.label_videostream.setText("")
         self.label_videostream.setScaledContents(True)
-        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_videostream.setObjectName("label_videostream")
         self.button_start_tracking = QtWidgets.QPushButton(MainGui)
         self.button_start_tracking.setGeometry(QtCore.QRect(10, 460, 101, 30))
@@ -125,10 +126,10 @@ class Ui_MainGui(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainGui = QtWidgets.QWidget()
     ui = Ui_MainGui()
     ui.setupUi(MainGui)
     MainGui.show()
     sys.exit(app.exec_())
-

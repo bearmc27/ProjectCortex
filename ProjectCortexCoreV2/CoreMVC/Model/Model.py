@@ -11,7 +11,7 @@ from CoreMVC.Model.Serial.SerialConnection import SerialConnection
 from CoreMVC.Model.Serial.SerialModel import SerialModel
 
 
-class Model():
+class Model:
     def __init__(self):
         # TODO: move these codes to other place
         # Defines the effective range(boarder), helps avoid tiny noise movement
@@ -32,7 +32,6 @@ class Model():
         # self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
         # self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
 
-
         self.is_previewing = False
         self.is_tracking = False
 
@@ -44,15 +43,15 @@ class Model():
         self.stop_tracking()
         self.stop_video_preview()
         # TODO: check if the thread is stopped, then Cameras=None
-        if self.rgb_camera != None:
+        if self.rgb_camera is not None:
             self.rgb_camera.release_camera()
         self.rgb_camera = None
 
-        if self.infrared_camera != None:
+        if self.infrared_camera is not None:
             self.infrared_camera.release_camera()
         self.infrared_camera = None
 
-        if self.serial_connection != None:
+        if self.serial_connection is not None:
             self.serial_connection.close_serial()
             self.serial_connection = None
 
@@ -76,14 +75,14 @@ class Model():
     # RGB Camera
     ############################################################
     def rgb_camera_get_frame(self):
-        if self.rgb_camera == None:
+        if self.rgb_camera is None:
             print("RGB Camera Not Yet Setup, Cannot Get Frame")
             return False, None
         else:
             return self.rgb_camera.get_frame()
 
     def rgb_camera_set_resolution(self, width, height):
-        if self.rgb_camera == None:
+        if self.rgb_camera is None:
             print("RGB Camera Not Yet Setup, Cannot Set Resolution")
         else:
             self.rgb_camera.set_videostream_resolution(width = width, height = height)
@@ -92,14 +91,14 @@ class Model():
     # Infrared Camera
     ############################################################
     def infrared_camera_get_frame(self):
-        if self.infrared_camera == None:
+        if self.infrared_camera is None:
             print("Infrared Camera Not Yet Setup, Cannot Get Frame")
             return False, None
         else:
             return self.infrared_camera.get_frame()
 
     def infrared_camera_set_resolution(self, width, height):
-        if self.infrared_camera == None:
+        if self.infrared_camera is None:
             print("Infrared Camera Not Yet Setup, Cannot Set Resolution")
         else:
             self.infrared_camera.set_videostream_resolution(width = width, height = height)
@@ -111,7 +110,7 @@ class Model():
         if self.is_previewing:
             print("Already Previewing")
         else:
-            if self.rgb_camera == None:
+            if self.rgb_camera is None:
                 print("RGB Camera Not Yet Setup")
             else:
                 self.is_previewing = True
@@ -124,7 +123,7 @@ class Model():
             print("Program Was Not Previewing")
 
     def view_preview_loop(self):
-        while self.is_previewing:
+        while self.is_previewing and self.rgb_camera is not None:
             ret, frame = self.rgb_camera_get_frame()
             if ret:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -134,10 +133,12 @@ class Model():
                 self.controller.main_gui_set_label_videostream_frame(pixmap = pix)
 
             else:
-                print("Preview ended with ret=False")
+                print("Preview Ended wWith ret=False")
                 self.is_previewing = False
                 self.rgb_camera = None
 
+        self.is_previewing = False
+        print("Preview Ended")
         self.controller.main_gui_clear_label_videostream_frame()
 
     ############################################################
@@ -147,11 +148,11 @@ class Model():
         if self.is_tracking:
             print("Already Tracking")
         else:
-            if self.infrared_camera == None:
+            if self.infrared_camera is None:
                 print("Infrared Camera Not Yet Setup")
             else:
-                if self.serial_connection == None:
-                    print("Serial Communication have not setup")
+                if self.serial_connection is None:
+                    print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
                     Thread(target = self.tracking_loop, args = ()).start()
@@ -163,7 +164,7 @@ class Model():
             print("Program Was Not Tracking")
 
     def tracking_loop(self):
-        while self.is_tracking:
+        while self.is_tracking and self.infrared_camera is not None:
             # Get a frame from camera
             ret, frame = self.infrared_camera_get_frame()
 
@@ -176,7 +177,7 @@ class Model():
                 ir_result = InfraredModel.process(frame = frame)
 
                 # If InfraredTracker find a target led
-                if ir_result != None:
+                if ir_result is not None:
 
                     # only proceed if the radius meets a minimum size
                     if ir_result['radius'] > 5:
@@ -202,7 +203,7 @@ class Model():
 
                             # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1; 2-> 1
                             # target on left to center
-                            if (dx < 0):
+                            if dx < 0:
                                 direction_x = 0
                             # target on right to center
                             else:
@@ -223,9 +224,14 @@ class Model():
                             # Send message
                             # self.send_serial_message(message = message)
                             print(message)
+
             else:
-                print("Tracking ended with ret=False")
+                print("Tracking Ended With ret=False")
                 self.is_tracking = False
+                self.infrared_camera = None
+
+        print("Tracking Ended")
+        self.is_tracking = False
 
     ############################################################
     # Recording
@@ -237,7 +243,7 @@ class Model():
         self.rgb_camera.start_record()
 
     def stop_record(self):
-        if self.rgb_camera != None:
+        if self.rgb_camera is not None:
             self.rgb_camera.stop_record()
 
     ############################################################
@@ -264,11 +270,18 @@ class Model():
     # Camera Setup
     ############################################################
     def setup_infrared_camera(self, index):
-        # self.
+        self.clear_infrared_camera()
         self.infrared_camera = Camera(camera_index = index)
 
     def setup_rgb_camera(self, index):
+        self.clear_rgb_camera()
         self.rgb_camera = Camera(camera_index = index)
+
+    def clear_infrared_camera(self):
+        self.infrared_camera = None
+
+    def clear_rgb_camera(self):
+        self.rgb_camera = None
 
     def get_available_camera_index_list(self):
         return CameraModel.get_available_camera_index_list()

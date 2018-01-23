@@ -16,7 +16,6 @@ class Camera():
         ret, frame = self.videostream.read()
         print(ret)
 
-
         # TODO: check self.grabbed to see videostream setup correctly
 
     ############################################################
