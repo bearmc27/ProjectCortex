@@ -147,6 +147,9 @@
     <iconset>
      <normaloff>../../res/button_manual_gimbal_right.png</normaloff>../../res/button_manual_gimbal_right.png</iconset>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="button_manual_gimbal_left">
    <property name="geometry">
@@ -163,6 +166,9 @@
    <property name="icon">
     <iconset>
      <normaloff>../../res/button_manual_gimbal_left.png</normaloff>../../res/button_manual_gimbal_left.png</iconset>
+   </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="button_manual_gimbal_down">
@@ -181,6 +187,9 @@
     <iconset>
      <normaloff>../../res/button_manual_gimbal_down.png</normaloff>../../res/button_manual_gimbal_down.png</iconset>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="button_manual_gimbal_up">
    <property name="geometry">
@@ -198,8 +207,11 @@
     <iconset>
      <normaloff>../../res/button_manual_gimbal_up.png</normaloff>../../res/button_manual_gimbal_up.png</iconset>
    </property>
+   <property name="autoRepeat">
+    <bool>true</bool>
+   </property>
   </widget>
-  <widget class="QComboBox" name="combobox_preview_camera_index">
+  <widget class="QComboBox" name="combobox_rgb_camera_index">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -209,7 +221,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="combobox_tracking_camera_index">
+  <widget class="QComboBox" name="combobox_infrared_camera_index">
    <property name="geometry">
     <rect>
      <x>230</x>
@@ -262,6 +274,45 @@
    </property>
    <property name="text">
     <string>Refresh Serial Port</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_setup_rgb_camera">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>420</y>
+     <width>131</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Setup RGB Camera</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_setup_infrared_camera">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>460</y>
+     <width>131</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Setup Infrared Camera</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_refresh_combobox_camera_index">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>440</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Refresh Camera Index</string>
    </property>
   </widget>
  </widget>

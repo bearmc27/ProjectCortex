@@ -76,6 +76,12 @@ class Ui_MainGui(object):
         self.button_manual_gimbal_up.setIcon(icon3)
         self.button_manual_gimbal_up.setAutoRepeat(True)
         self.button_manual_gimbal_up.setObjectName("button_manual_gimbal_up")
+        self.combobox_rgb_camera_index = QtWidgets.QComboBox(MainGui)
+        self.combobox_rgb_camera_index.setGeometry(QtCore.QRect(230, 420, 51, 31))
+        self.combobox_rgb_camera_index.setObjectName("combobox_rgb_camera_index")
+        self.combobox_infrared_camera_index = QtWidgets.QComboBox(MainGui)
+        self.combobox_infrared_camera_index.setGeometry(QtCore.QRect(230, 460, 51, 31))
+        self.combobox_infrared_camera_index.setObjectName("combobox_infrared_camera_index")
         self.button_create_serial_connection = QtWidgets.QPushButton(MainGui)
         self.button_create_serial_connection.setGeometry(QtCore.QRect(10, 500, 131, 31))
         self.button_create_serial_connection.setObjectName("button_create_serial_connection")
@@ -87,6 +93,15 @@ class Ui_MainGui(object):
         self.button_refresh_combobox_serial_connection_ports = QtWidgets.QPushButton(MainGui)
         self.button_refresh_combobox_serial_connection_ports.setGeometry(QtCore.QRect(150, 500, 101, 31))
         self.button_refresh_combobox_serial_connection_ports.setObjectName("button_refresh_combobox_serial_connection_ports")
+        self.button_setup_rgb_camera = QtWidgets.QPushButton(MainGui)
+        self.button_setup_rgb_camera.setGeometry(QtCore.QRect(290, 420, 131, 30))
+        self.button_setup_rgb_camera.setObjectName("button_setup_rgb_camera")
+        self.button_setup_infrared_camera = QtWidgets.QPushButton(MainGui)
+        self.button_setup_infrared_camera.setGeometry(QtCore.QRect(290, 460, 131, 30))
+        self.button_setup_infrared_camera.setObjectName("button_setup_infrared_camera")
+        self.button_refresh_combobox_camera_index = QtWidgets.QPushButton(MainGui)
+        self.button_refresh_combobox_camera_index.setGeometry(QtCore.QRect(430, 440, 121, 31))
+        self.button_refresh_combobox_camera_index.setObjectName("button_refresh_combobox_camera_index")
 
         self.retranslateUi(MainGui)
         self.combobox_serial_connection_ports.setCurrentIndex(-1)
@@ -103,6 +118,9 @@ class Ui_MainGui(object):
         self.button_stop_record.setText(_translate("MainGui", "Stop Recording"))
         self.button_create_serial_connection.setText(_translate("MainGui", "CreateSerialConnection"))
         self.button_refresh_combobox_serial_connection_ports.setText(_translate("MainGui", "Refresh Serial Port"))
+        self.button_setup_rgb_camera.setText(_translate("MainGui", "Setup RGB Camera"))
+        self.button_setup_infrared_camera.setText(_translate("MainGui", "Setup Infrared Camera"))
+        self.button_refresh_combobox_camera_index.setText(_translate("MainGui", "Refresh Camera Index"))
 
 
 if __name__ == "__main__":

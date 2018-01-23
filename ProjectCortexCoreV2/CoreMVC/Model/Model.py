@@ -1,10 +1,10 @@
 import math
 from threading import Thread
 
-import imutils
 from PyQt5 import QtGui
 from cv2 import cv2
 
+from CoreMVC.Model.Camera import CameraModel
 from CoreMVC.Model.Camera.Camera import Camera
 from CoreMVC.Model.InfraredModel import InfraredModel
 from CoreMVC.Model.Serial.SerialConnection import SerialConnection
@@ -23,11 +23,15 @@ class Model():
 
         self.serial_connection = None
 
-        self.rgb_camera = Camera(camera_index = 0)
-        self.infrared_camera = Camera(camera_index = 0)
+        print(CameraModel.get_available_camera_index_list())
 
-        self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
-        self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
+        # self.rgb_camera = Camera(camera_index = 1)
+        # self.infrared_camera = Camera(camera_index = 1)
+        self.rgb_camera = None
+        self.infrared_camera = None
+        # self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
+        # self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
+
 
         self.is_previewing = False
         self.is_tracking = False
@@ -40,9 +44,12 @@ class Model():
         self.stop_tracking()
         self.stop_video_preview()
         # TODO: check if the thread is stopped, then Cameras=None
-        self.rgb_camera.release_camera()
+        if self.rgb_camera != None:
+            self.rgb_camera.release_camera()
         self.rgb_camera = None
-        self.infrared_camera.release_camera()
+
+        if self.infrared_camera != None:
+            self.infrared_camera.release_camera()
         self.infrared_camera = None
 
         if self.serial_connection != None:
@@ -53,7 +60,7 @@ class Model():
     # Serial
     ############################################################
     def create_serial_connection(self, baudrate, port):
-        if self.serial_connection == None:
+        if self.serial_connection is None:
             self.serial_connection = SerialConnection(baudrate = baudrate, port = port)
 
         else:
@@ -62,20 +69,40 @@ class Model():
     def send_serial_message(self, message):
         self.serial_connection.send_serial_message(message = message)
 
-    def get_available_serial_ports(self):
-        return SerialModel.get_available_serial_ports()
+    def get_available_serial_ports_list(self):
+        return SerialModel.get_available_serial_ports_list()
 
     ############################################################
     # RGB Camera
     ############################################################
     def rgb_camera_get_frame(self):
-        return self.rgb_camera.get_frame()
+        if self.rgb_camera == None:
+            print("RGB Camera Not Yet Setup, Cannot Get Frame")
+            return False, None
+        else:
+            return self.rgb_camera.get_frame()
+
+    def rgb_camera_set_resolution(self, width, height):
+        if self.rgb_camera == None:
+            print("RGB Camera Not Yet Setup, Cannot Set Resolution")
+        else:
+            self.rgb_camera.set_videostream_resolution(width = width, height = height)
 
     ############################################################
     # Infrared Camera
     ############################################################
     def infrared_camera_get_frame(self):
-        return self.infrared_camera.get_frame()
+        if self.infrared_camera == None:
+            print("Infrared Camera Not Yet Setup, Cannot Get Frame")
+            return False, None
+        else:
+            return self.infrared_camera.get_frame()
+
+    def infrared_camera_set_resolution(self, width, height):
+        if self.infrared_camera == None:
+            print("Infrared Camera Not Yet Setup, Cannot Set Resolution")
+        else:
+            self.infrared_camera.set_videostream_resolution(width = width, height = height)
 
     ############################################################
     # Video Preview
@@ -84,11 +111,17 @@ class Model():
         if self.is_previewing:
             print("Already Previewing")
         else:
-            self.is_previewing = True
-            Thread(target = self.view_preview_loop, args = ()).start()
+            if self.rgb_camera == None:
+                print("RGB Camera Not Yet Setup")
+            else:
+                self.is_previewing = True
+                Thread(target = self.view_preview_loop, args = ()).start()
 
     def stop_video_preview(self):
-        self.is_previewing = False
+        if self.is_previewing:
+            self.is_previewing = False
+        else:
+            print("Program Was Not Previewing")
 
     def view_preview_loop(self):
         while self.is_previewing:
@@ -103,6 +136,7 @@ class Model():
             else:
                 print("Preview ended with ret=False")
                 self.is_previewing = False
+                self.rgb_camera = None
 
         self.controller.main_gui_clear_label_videostream_frame()
 
@@ -113,14 +147,20 @@ class Model():
         if self.is_tracking:
             print("Already Tracking")
         else:
-            if self.serial_connection == None:
-                print("Serial Communication have not setup")
+            if self.infrared_camera == None:
+                print("Infrared Camera Not Yet Setup")
             else:
-                self.is_tracking = True
-                Thread(target = self.tracking_loop, args = ()).start()
+                if self.serial_connection == None:
+                    print("Serial Communication have not setup")
+                else:
+                    self.is_tracking = True
+                    Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
-        self.is_tracking = False
+        if self.is_tracking:
+            self.is_tracking = False
+        else:
+            print("Program Was Not Tracking")
 
     def tracking_loop(self):
         while self.is_tracking:
@@ -129,7 +169,8 @@ class Model():
 
             if ret:
                 # Resize(downsize) the frame for better processing performance
-                frame = imutils.resize(frame, width = 320)
+                # Current natively using 320x240 frame, no downsizing it needed
+                # frame = imutils.resize(frame, width = 320)
 
                 # Process the frame
                 ir_result = InfraredModel.process(frame = frame)
@@ -180,7 +221,7 @@ class Model():
                             # print("Sent Message: " + message)
 
                             # Send message
-                            self.send_serial_message(message = message)
+                            # self.send_serial_message(message = message)
                             print(message)
             else:
                 print("Tracking ended with ret=False")
@@ -196,7 +237,8 @@ class Model():
         self.rgb_camera.start_record()
 
     def stop_record(self):
-        self.rgb_camera.stop_record()
+        if self.rgb_camera != None:
+            self.rgb_camera.stop_record()
 
     ############################################################
     # Manual Control
@@ -217,3 +259,16 @@ class Model():
 
     def manual_gimbal_right(self):
         self.send_serial_message(message = "020100000;")
+
+    ############################################################
+    # Camera Setup
+    ############################################################
+    def setup_infrared_camera(self, index):
+        # self.
+        self.infrared_camera = Camera(camera_index = index)
+
+    def setup_rgb_camera(self, index):
+        self.rgb_camera = Camera(camera_index = index)
+
+    def get_available_camera_index_list(self):
+        return CameraModel.get_available_camera_index_list()

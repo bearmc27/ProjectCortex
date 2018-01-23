@@ -9,13 +9,16 @@ class Controller():
     def create_serial_connection(self):
         print("Create Serial Model")
         baudrate = 57600
-        port = str(self.view.get_combobox_serial_connection_port_value())
-        self.model.create_serial_connection(baudrate = baudrate, port = port)
+        port = self.view.get_combobox_serial_connection_port_current_text()
+        if port == -1:
+            print("Serial Port Not Selected")
+        else:
+            self.model.create_serial_connection(baudrate = baudrate, port = port)
 
     def refresh_combobox_serial_connection_port(self):
-        print("Refresh ComboBox Serial Model Port")
-        ports = self.model.get_available_serial_ports()
-        self.view.set_combobox_serial_connection_port_list([row[0] for row in ports])
+        print("Refresh ComboBox Serial Connection Port")
+        available_serial_ports = self.model.get_available_serial_ports_list()
+        self.view.set_combobox_serial_connection_port_list(list = [row[0] for row in available_serial_ports])
 
     ############################################################
     # Preview
@@ -29,7 +32,7 @@ class Controller():
         self.model.stop_video_preview()
 
     def main_gui_set_label_videostream_frame(self, pixmap):
-        self.view.main_gui_set_label_videostream_frame(pixmap)
+        self.view.main_gui_set_label_videostream_frame(pixmap = pixmap)
 
     def main_gui_clear_label_videostream_frame(self):
         self.view.main_gui_clear_label_videostream_frame()
@@ -87,3 +90,34 @@ class Controller():
     def manual_gimbal_right(self):
         print("Manual Gimbal Right")
         self.model.manual_gimbal_right()
+
+    ############################################################
+    # Camera Setup
+    ############################################################
+    def setup_infrared_camera(self):
+        print("Setup Infrared Camera")
+        index = int(self.view.get_combobox_infrared_camera_index_current_text())
+        if index == None:
+            print("Infrared Camera Index Not Selected")
+        else:
+            self.model.setup_infrared_camera(index = index)
+
+    def setup_rgb_camera(self):
+        print("Setup RGB Camera")
+        index = int(self.view.get_combobox_rgb_camera_index_current_text())
+        if index == None:
+            print("RGB Camera Index Not Selected")
+        else:
+            self.model.setup_rgb_camera(index = index)
+
+    def refresh_combobox_camera_index_list(self):
+        print("Refresh Combobox Infrared Camera Index")
+        available_camera_indexes = self.model.get_available_camera_index_list()
+        self.view.set_combobox_infrared_camera_index_list(list = available_camera_indexes)
+        self.view.set_combobox_rgb_camera_index_list(list = available_camera_indexes)
+
+    def infrared_camera_set_resolution(self, width, height):
+        print("Set Infrared Camera Resolution")
+        width=320
+        height=240
+        self.model.resolution
