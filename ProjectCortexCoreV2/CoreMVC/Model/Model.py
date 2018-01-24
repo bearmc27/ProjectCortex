@@ -1,14 +1,14 @@
 import math
 from threading import Thread
 
-from PyQt5 import QtGui
 from cv2 import cv2
 
 from CoreMVC.Model.Camera import CameraModel
 from CoreMVC.Model.Camera.Camera import Camera
-from CoreMVC.Model.InfraredModel import InfraredModel
+from CoreMVC.Model.Infrared import InfraredModel
 from CoreMVC.Model.Serial.SerialConnection import SerialConnection
 from CoreMVC.Model.Serial.SerialModel import SerialModel
+from CoreMVC.Model.Util.Gui import GuiModel
 
 
 class Model:
@@ -126,14 +126,12 @@ class Model:
         while self.is_previewing and self.rgb_camera is not None:
             ret, frame = self.rgb_camera_get_frame()
             if ret:
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                img = QtGui.QImage(frame, frame.shape[1], frame.shape[0], QtGui.QImage.Format_RGB888)
-                pix = QtGui.QPixmap.fromImage(img)
+                pix = GuiModel.frame_to_pixmap(frame)
 
                 self.controller.main_gui_set_label_videostream_frame(pixmap = pix)
 
             else:
-                print("Preview Ended wWith ret=False")
+                print("Preview Ended With ret=False")
                 self.is_previewing = False
                 self.rgb_camera = None
 
