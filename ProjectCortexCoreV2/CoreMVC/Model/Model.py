@@ -1,6 +1,7 @@
-import math
 from threading import Thread
 
+import imutils
+import numpy as np
 from cv2 import cv2
 
 from CoreMVC.Model.Camera import CameraModel
@@ -18,19 +19,10 @@ class Model:
         self.effective_x = 5
         self.effective_y = 5
 
-        self.ratio_x = 1.0
-        self.ratio_y = 1.0
-
         self.serial_connection = None
 
-        print(CameraModel.get_available_camera_index_list())
-
-        # self.rgb_camera = Camera(camera_index = 1)
-        # self.infrared_camera = Camera(camera_index = 1)
         self.rgb_camera = None
         self.infrared_camera = None
-        # self.rgb_camera.set_videostream_resolution(width = 1920, height = 1080)
-        # self.infrared_camera.set_videostream_resolution(width = 320, height = 240)
 
         self.is_previewing = False
         self.is_tracking = False
@@ -149,7 +141,7 @@ class Model:
             if self.infrared_camera is None:
                 print("Infrared Camera Not Yet Setup")
             else:
-                if self.serial_connection is None:
+                if self.serial_connection is None and False:
                     print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
@@ -162,6 +154,14 @@ class Model:
             print("Program Was Not Tracking")
 
     def tracking_loop(self):
+        # TODO: Remove these code later
+
+        cv2.namedWindow("Test",cv2.WINDOW_NORMAL)
+        blue_image=np.zeros((400, 400, 3), np.uint8)
+        red_image=np.zeros((400, 400, 3), np.uint8)
+        blue_image[:, 0:400] = (255, 0, 0)
+        red_image[:, 0:400] = (0, 0, 255)
+
         while self.is_tracking and self.infrared_camera is not None:
             # Get a frame from camera
             ret, frame = self.infrared_camera_get_frame()
@@ -169,22 +169,26 @@ class Model:
             if ret:
                 # Resize(downsize) the frame for better processing performance
                 # Current natively using 320x240 frame, no downsizing it needed
-                # frame = imutils.resize(frame, width = 320)
+                frame = imutils.resize(frame, width = 320)
 
                 # Process the frame
-                ir_result = InfraredModel.process(frame = frame)
+                ir_result = InfraredModel.find_largest_contour(frame = frame)
+                cv2.imshow("Test", ir_result["pro_processing_frame"])
+                cv2.waitKey(1)
 
                 # If InfraredTracker find a target led
-                if ir_result is not None:
+                if ir_result["result"]:
 
                     # only proceed if the radius meets a minimum size
                     if ir_result['radius'] > 5:
 
+                        # TODO: Remove these code later
+                        cv2.imshow("Result", blue_image)
+                        cv2.waitKey(1)
+
                         # Calculate the distance from center to target, in X-axis and Y-axis
-                        # dx = math.floor((int(ir_result['x']) - 200) * self.ratio)
-                        # dy = math.floor((int(ir_result['y']) - 150) * self.ratio)
-                        dx = int(ir_result['x']) - 160
-                        dy = int(ir_result['y']) - 160
+                        dx = int(ir_result['centroid_x']) - 160
+                        dy = int(ir_result['centroid_y']) - 160
 
                         # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
@@ -216,12 +220,18 @@ class Model:
                             # TODO: Set package type
                             # Build the message string
                             # First integer is package type
-                            message = "0" + str(direction_x) + str(math.floor(abs(dx) * self.ratio_x)).zfill(3) + str(direction_y) + str(math.floor(abs(dy) * self.ratio_y)).zfill(3) + ";"
+                            message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"
                             # print("Sent Message: " + message)
 
                             # Send message
                             # self.send_serial_message(message = message)
                             print(message)
+                else:
+                    # TODO: Remove these code later
+                    cv2.imshow("Result", red_image)
+                    cv2.waitKey(1)
+
+
 
             else:
                 print("Tracking Ended With ret=False")

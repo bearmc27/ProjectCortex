@@ -61,6 +61,11 @@ class View():
         self.main_gui.button_setup_rgb_camera.clicked.connect(self.controller.setup_rgb_camera)
         self.main_gui.button_refresh_combobox_camera_index.clicked.connect(self.controller.refresh_combobox_camera_index_list)
 
+        # ############################################################
+        # # Testing
+        # ############################################################
+        # self.main_gui.verticalslider_infrared_upper_boundary_hue.valueChanged.connect(self.update_lcd_number_value)
+
     ############################################################
     # Preview
     ############################################################
@@ -96,3 +101,9 @@ class View():
     def set_combobox_rgb_camera_index_list(self, list):
         self.main_gui.combobox_rgb_camera_index.clear()
         self.main_gui.combobox_rgb_camera_index.addItems(list)
+
+    # ############################################################
+    # # Testing
+    # ############################################################
+    # def update_lcd_number_value(self):
+    #     self.main_gui.lcdnumber.display(self.main_gui.verticalslider_infrared_upper_boundary_hue.value())
