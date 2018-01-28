@@ -156,9 +156,9 @@ class Model:
     def tracking_loop(self):
         # TODO: Remove these code later
 
-        cv2.namedWindow("Test",cv2.WINDOW_NORMAL)
-        blue_image=np.zeros((400, 400, 3), np.uint8)
-        red_image=np.zeros((400, 400, 3), np.uint8)
+        cv2.namedWindow("Test", cv2.WINDOW_NORMAL)
+        blue_image = np.zeros((400, 400, 3), np.uint8)
+        red_image = np.zeros((400, 400, 3), np.uint8)
         blue_image[:, 0:400] = (255, 0, 0)
         red_image[:, 0:400] = (0, 0, 255)
 
@@ -180,7 +180,7 @@ class Model:
                 if ir_result["result"]:
 
                     # only proceed if the radius meets a minimum size
-                    if ir_result['radius'] > 5:
+                    if ir_result['radius'] > 2:
 
                         # TODO: Remove these code later
                         cv2.imshow("Result", blue_image)
@@ -293,3 +293,37 @@ class Model:
 
     def get_available_camera_index_list(self):
         return CameraModel.get_available_camera_index_list()
+
+    ############################################################
+    # Infrared Boundary
+    ############################################################
+    def set_infrared_upper_boundary_hue(self, hue):
+        InfraredModel.set_infrared_upper_boundary_hue(hue = hue)
+
+    def set_infrared_upper_boundary_saturation(self, saturation):
+        InfraredModel.set_infrared_upper_boundary_saturation(saturation = saturation)
+
+    def set_infrared_upper_boundary_value(self, value):
+        InfraredModel.set_infrared_upper_boundary_value(value = value)
+
+    def set_infrared_lower_boundary_hue(self, hue):
+        InfraredModel.set_infrared_lower_boundary_hue(hue = hue)
+
+    def set_infrared_lower_boundary_saturation(self, saturation):
+        InfraredModel.set_infrared_lower_boundary_saturation(saturation = saturation)
+
+    def set_infrared_lower_boundary_value(self, value):
+        InfraredModel.set_infrared_lower_boundary_value(value = value)
+
+    ############################################################
+    # Morphological Transformation
+    ############################################################
+    def set_blur_kernalsize(self,blur_kernalsize):
+        InfraredModel.set_blur_kernalsize(blur_kernalsize=blur_kernalsize)
+
+    def set_erode_iteration(self, erode_iterations):
+        InfraredModel.set_erode_iterations(erode_iterations = erode_iterations)
+
+
+    def set_dilate_iteration(self, dilate_iterations):
+        InfraredModel.set_dilate_iterations(dilate_iterations = dilate_iterations)

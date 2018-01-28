@@ -61,10 +61,22 @@ class View():
         self.main_gui.button_setup_rgb_camera.clicked.connect(self.controller.setup_rgb_camera)
         self.main_gui.button_refresh_combobox_camera_index.clicked.connect(self.controller.refresh_combobox_camera_index_list)
 
-        # ############################################################
-        # # Testing
-        # ############################################################
-        # self.main_gui.verticalslider_infrared_upper_boundary_hue.valueChanged.connect(self.update_lcd_number_value)
+        ############################################################
+        # Infrared Boundary
+        ############################################################
+        self.main_gui.horizontalslider_infrared_upper_boundary_hue.valueChanged['int'].connect(self.controller.set_infrared_upper_boundary_hue)
+        self.main_gui.horizontalslider_infrared_upper_boundary_saturation.valueChanged['int'].connect(self.controller.set_infrared_upper_boundary_saturation)
+        self.main_gui.horizontalslider_infrared_upper_boundary_value.valueChanged['int'].connect(self.controller.set_infrared_upper_boundary_value)
+        self.main_gui.horizontalslider_infrared_lower_boundary_hue.valueChanged['int'].connect(self.controller.set_infrared_lower_boundary_hue)
+        self.main_gui.horizontalslider_infrared_lower_boundary_saturation.valueChanged['int'].connect(self.controller.set_infrared_lower_boundary_saturation)
+        self.main_gui.horizontalslider_infrared_lower_boundary_value.valueChanged['int'].connect(self.controller.set_infrared_lower_boundary_value)
+
+        ############################################################
+        # Morphological Transformation
+        ############################################################
+        self.main_gui.spinbox_infrared_blur_kernalsize.valueChanged['int'].connect(self.controller.set_blur_kernalsize)
+        self.main_gui.spinbox_infrared_erode_iterations.valueChanged['int'].connect(self.controller.set_erode_iterations)
+        self.main_gui.spinbox_infrared_dilate_iterations.valueChanged['int'].connect(self.controller.set_dilate_iterations)
 
     ############################################################
     # Preview
@@ -102,8 +114,21 @@ class View():
         self.main_gui.combobox_rgb_camera_index.clear()
         self.main_gui.combobox_rgb_camera_index.addItems(list)
 
-    # ############################################################
-    # # Testing
-    # ############################################################
-    # def update_lcd_number_value(self):
-    #     self.main_gui.lcdnumber.display(self.main_gui.verticalslider_infrared_upper_boundary_hue.value())
+    ############################################################
+    # Infrared Boundary
+    ############################################################
+    def init_infrared_boundary_value(self, lower_boundary, upper_boundary):
+        self.main_gui.horizontalslider_infrared_upper_boundary_hue.setValue(upper_boundary[0])
+        self.main_gui.horizontalslider_infrared_upper_boundary_saturation.setValue(upper_boundary[1])
+        self.main_gui.horizontalslider_infrared_upper_boundary_value.setValue(upper_boundary[2])
+        self.main_gui.horizontalslider_infrared_lower_boundary_hue.setValue(lower_boundary[0])
+        self.main_gui.horizontalslider_infrared_lower_boundary_saturation.setValue(lower_boundary[1])
+        self.main_gui.horizontalslider_infrared_lower_boundary_value.setValue(lower_boundary[2])
+
+    ############################################################
+    # Morphological Transformation
+    ############################################################
+    def init_morphological_transformation_setup(self, blur_kernalsize,erode_iterations,dilate_iterations):
+        self.main_gui.spinbox_infrared_blur_kernalsize.setValue(blur_kernalsize)
+        self.main_gui.spinbox_infrared_erode_iterations.setValue(erode_iterations)
+        self.main_gui.spinbox_infrared_dilate_iterations.setValue(dilate_iterations)
