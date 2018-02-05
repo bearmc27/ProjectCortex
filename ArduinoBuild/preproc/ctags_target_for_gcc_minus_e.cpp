@@ -21,8 +21,8 @@
 
 
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48 Stepper Motor
-AccelStepper stepper1(8, 3 /* IN1 on the ULN2003 driver 1*/, 5 /* IN3 on the ULN2003 driver 1*/, 4 /* IN2 on the ULN2003 driver 1*/, 6 /* IN4 on the ULN2003 driver 1*/);
-AccelStepper stepper2(8, 8 /* IN1 on the ULN2003 driver 2*/, 10 /* IN3 on the ULN2003 driver 2*/, 9 /* IN2 on the ULN2003 driver 2*/, 11 /* IN4 on the ULN2003 driver 2*/);
+AccelStepper stepper1(8, 6 /* IN1 on the ULN2003 driver 1*/, 8 /* IN3 on the ULN2003 driver 1*/, 7 /* IN2 on the ULN2003 driver 1*/, 9 /* IN4 on the ULN2003 driver 1*/);
+AccelStepper stepper2(8, 2 /* IN1 on the ULN2003 driver 2*/, 4 /* IN3 on the ULN2003 driver 2*/, 3 /* IN2 on the ULN2003 driver 2*/, 5 /* IN4 on the ULN2003 driver 2*/);
 
 char buffer;
 int index = 0;

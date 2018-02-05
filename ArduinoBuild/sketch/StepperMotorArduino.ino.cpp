@@ -10,16 +10,16 @@
 #define ACCELERATION 1024
 
 // Motor pin definitions (Stepper motor 1)(X-Axis))
-#define STEPPER_MOTOR1_PIN1 3 // IN1 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN2 4 // IN2 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN3 5 // IN3 on the ULN2003 driver 1
-#define STEPPER_MOTOR1_PIN4 6 // IN4 on the ULN2003 driver 1
+#define STEPPER_MOTOR1_PIN1 6 // IN1 on the ULN2003 driver 1
+#define STEPPER_MOTOR1_PIN2 7 // IN2 on the ULN2003 driver 1
+#define STEPPER_MOTOR1_PIN3 8 // IN3 on the ULN2003 driver 1
+#define STEPPER_MOTOR1_PIN4 9 // IN4 on the ULN2003 driver 1
 
 // Motor pin definitions (Stepper motor 2)(Y-Axis)
-#define STEPPER_MOTOR2_PIN1 8  // IN1 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN2 9  // IN2 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN3 10 // IN3 on the ULN2003 driver 2
-#define STEPPER_MOTOR2_PIN4 11 // IN4 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN1 2  // IN1 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN2 3  // IN2 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN3 4 // IN3 on the ULN2003 driver 2
+#define STEPPER_MOTOR2_PIN4 5 // IN4 on the ULN2003 driver 2
 
 // Initialize with pin sequence IN1-IN3-IN2-IN4 for using the AccelStepper with 28BYJ-48 Stepper Motor
 AccelStepper stepper1(HALFSTEP, STEPPER_MOTOR1_PIN1, STEPPER_MOTOR1_PIN3, STEPPER_MOTOR1_PIN2, STEPPER_MOTOR1_PIN4);
