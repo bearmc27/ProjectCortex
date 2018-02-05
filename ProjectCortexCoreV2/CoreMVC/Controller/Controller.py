@@ -124,11 +124,11 @@ class Controller():
         self.view.set_combobox_infrared_camera_index_list(list = available_camera_indexes)
         self.view.set_combobox_rgb_camera_index_list(list = available_camera_indexes)
 
-    def infrared_camera_set_resolution(self, width = 320, height = 240):
+    def infrared_camera_set_resolution(self, width = 640, height = 360):
         print("Set Infrared Camera Resolution")
         self.model.infrared_camera_set_resolution(width = width, height = height)
 
-    def rgb_camera_set_resolution(self, width = 320, height = 240):
+    def rgb_camera_set_resolution(self, width = 1280, height = 720):
         print("Set RGB Camera Resolution")
         self.model.rgb_camera_set_resolution(width = width, height = height)
 
@@ -156,7 +156,7 @@ class Controller():
     ############################################################
     # Morphological Transformation
     ############################################################
-    def set_blur_kernalsize(self,blur_kernalsize):
+    def set_blur_kernalsize(self, blur_kernalsize):
         self.model.set_blur_kernalsize(blur_kernalsize = blur_kernalsize)
 
     def set_erode_iterations(self, erode_iterations):

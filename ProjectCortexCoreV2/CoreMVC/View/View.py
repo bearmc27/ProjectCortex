@@ -91,7 +91,10 @@ class View():
     # Serial
     ############################################################
     def get_combobox_serial_connection_port_current_text(self):
-        return self.main_gui.combobox_serial_connection_ports.currentText()
+        if self.main_gui.combobox_serial_connection_ports.currentIndex() ==-1:
+            return None
+        else:
+            return self.main_gui.combobox_serial_connection_ports.currentText()
 
     def set_combobox_serial_connection_port_list(self, list):
         self.main_gui.combobox_serial_connection_ports.clear()
@@ -101,10 +104,16 @@ class View():
     # Camera
     ############################################################
     def get_combobox_infrared_camera_index_current_text(self):
-        return self.main_gui.combobox_infrared_camera_index.currentText()
+        if self.main_gui.combobox_infrared_camera_index.currentIndex() ==-1:
+            return None
+        else:
+            return self.main_gui.combobox_infrared_camera_index.currentText()
 
     def get_combobox_rgb_camera_index_current_text(self):
-        return self.main_gui.combobox_rgb_camera_index.currentText()
+        if self.main_gui.combobox_rgb_camera_index.currentIndex() ==-1:
+            return None
+        else:
+            return self.main_gui.combobox_rgb_camera_index.currentText()
 
     def set_combobox_infrared_camera_index_list(self, list):
         self.main_gui.combobox_infrared_camera_index.clear()

@@ -254,7 +254,7 @@ class Ui_MainGui(object):
         self.tabWidget.addTab(self.tab_2, "")
 
         self.retranslateUi(MainGui)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         self.combobox_serial_connection_ports.setCurrentIndex(-1)
         self.horizontalslider_infrared_upper_boundary_hue.valueChanged['int'].connect(self.lcdnumber_infrared_upper_boundary_hue.display)
         self.horizontalslider_infrared_upper_boundary_saturation.valueChanged['int'].connect(self.lcdnumber_infrared_upper_boundary_saturation.display)
