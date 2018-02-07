@@ -8,6 +8,7 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+
 class Ui_MainGui(object):
     def setupUi(self, MainGui):
         MainGui.setObjectName("MainGui")
@@ -68,7 +69,7 @@ class Ui_MainGui(object):
         self.label_videostream.setAutoFillBackground(True)
         self.label_videostream.setText("")
         self.label_videostream.setScaledContents(True)
-        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
+        self.label_videostream.setAlignment(QtCore.Qt.AlignLeading | QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
         self.label_videostream.setObjectName("label_videostream")
         self.button_create_serial_connection = QtWidgets.QPushButton(self.tab)
         self.button_create_serial_connection.setGeometry(QtCore.QRect(10, 500, 131, 31))
@@ -183,7 +184,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_3.setFont(font)
-        self.label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_3.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_3.setObjectName("label_3")
         self.label_4 = QtWidgets.QLabel(self.tab_2)
         self.label_4.setGeometry(QtCore.QRect(10, 70, 91, 21))
@@ -191,7 +192,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_4.setFont(font)
-        self.label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_4.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_4.setObjectName("label_4")
         self.label_5 = QtWidgets.QLabel(self.tab_2)
         self.label_5.setGeometry(QtCore.QRect(10, 100, 91, 21))
@@ -199,7 +200,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_5.setFont(font)
-        self.label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_5.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_5.setObjectName("label_5")
         self.label_6 = QtWidgets.QLabel(self.tab_2)
         self.label_6.setGeometry(QtCore.QRect(590, 50, 91, 21))
@@ -207,7 +208,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_6.setFont(font)
-        self.label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_6.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_6.setObjectName("label_6")
         self.line = QtWidgets.QFrame(self.tab_2)
         self.line.setGeometry(QtCore.QRect(10, 120, 771, 21))
@@ -222,7 +223,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_7.setFont(font)
-        self.label_7.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_7.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_7.setObjectName("label_7")
         self.spinbox_infrared_erode_iterations = QtWidgets.QSpinBox(self.tab_2)
         self.spinbox_infrared_erode_iterations.setGeometry(QtCore.QRect(690, 50, 41, 21))
@@ -243,7 +244,7 @@ class Ui_MainGui(object):
         font.setFamily("Arial")
         font.setPointSize(14)
         self.label_8.setFont(font)
-        self.label_8.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_8.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.label_8.setObjectName("label_8")
         self.spinbox_infrared_blur_kernalsize = QtWidgets.QSpinBox(self.tab_2)
         self.spinbox_infrared_blur_kernalsize.setGeometry(QtCore.QRect(690, 20, 41, 21))
@@ -292,10 +293,10 @@ class Ui_MainGui(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainGui = QtWidgets.QWidget()
     ui = Ui_MainGui()
     ui.setupUi(MainGui)
     MainGui.show()
     sys.exit(app.exec_())
-

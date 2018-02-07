@@ -92,11 +92,11 @@ def find_largest_contour(frame):
 
     # Eroded the frmae
     if _is_erode:
-        mask = cv2.erode(mask, None, iterations = _erode_iterations)
+        mask = cv2.erode(mask, None, iterations=_erode_iterations)
 
     # Dilate the frame
     if _is_dilate:
-        mask = cv2.dilate(mask, None, iterations = _dilate_iterations)
+        mask = cv2.dilate(mask, None, iterations=_dilate_iterations)
 
     # Find contours in the mask
     # contours: 輪廓
@@ -108,7 +108,7 @@ def find_largest_contour(frame):
     if len(contours) > 0:
 
         # Find the largest contour among all contours
-        largest_contour = max(contours, key = cv2.contourArea)
+        largest_contour = max(contours, key=cv2.contourArea)
 
         # Form the minimum circle contain the above largest contour
         # Get x, y, and radius of largest contour

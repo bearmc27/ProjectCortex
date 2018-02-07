@@ -47,7 +47,7 @@ class Camera():
             print("Already Recording")
         else:
             self.is_recording = True
-            Thread(target = self.record_loop, args = ()).start()
+            Thread(target=self.record_loop, args=()).start()
 
     def stop_record(self):
         self.is_recording = False

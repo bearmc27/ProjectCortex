@@ -12,7 +12,7 @@ class View():
     # Main Gui
     ############################################################
     def main_gui_create(self):
-        self.main_gui = MainGui(controller = self.controller)
+        self.main_gui = MainGui(controller=self.controller)
 
     def main_gui_show(self):
         self.main_gui.show()
@@ -91,7 +91,7 @@ class View():
     # Serial
     ############################################################
     def get_combobox_serial_connection_port_current_text(self):
-        if self.main_gui.combobox_serial_connection_ports.currentIndex() ==-1:
+        if self.main_gui.combobox_serial_connection_ports.currentIndex() == -1:
             return None
         else:
             return self.main_gui.combobox_serial_connection_ports.currentText()
@@ -104,13 +104,13 @@ class View():
     # Camera
     ############################################################
     def get_combobox_infrared_camera_index_current_text(self):
-        if self.main_gui.combobox_infrared_camera_index.currentIndex() ==-1:
+        if self.main_gui.combobox_infrared_camera_index.currentIndex() == -1:
             return None
         else:
             return self.main_gui.combobox_infrared_camera_index.currentText()
 
     def get_combobox_rgb_camera_index_current_text(self):
-        if self.main_gui.combobox_rgb_camera_index.currentIndex() ==-1:
+        if self.main_gui.combobox_rgb_camera_index.currentIndex() == -1:
             return None
         else:
             return self.main_gui.combobox_rgb_camera_index.currentText()
@@ -137,7 +137,7 @@ class View():
     ############################################################
     # Morphological Transformation
     ############################################################
-    def init_morphological_transformation_setup(self, blur_kernalsize,erode_iterations,dilate_iterations):
+    def init_morphological_transformation_setup(self, blur_kernalsize, erode_iterations, dilate_iterations):
         self.main_gui.spinbox_infrared_blur_kernalsize.setValue(blur_kernalsize)
         self.main_gui.spinbox_infrared_erode_iterations.setValue(erode_iterations)
         self.main_gui.spinbox_infrared_dilate_iterations.setValue(dilate_iterations)

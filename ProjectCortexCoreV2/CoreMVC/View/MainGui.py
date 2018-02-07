@@ -8,8 +8,8 @@ class MainGui(QtWidgets.QWidget, Ui_MainGui):
     Actual MainGui class
     """
 
-    def __init__(self, controller, parent = None):
-        super().__init__(parent = parent)
+    def __init__(self, controller, parent=None):
+        super().__init__(parent=parent)
         self.controller = controller
         self.setupUi(self)
 
