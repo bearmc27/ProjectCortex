@@ -162,6 +162,8 @@ class Model:
         blue_image[:, 0:400] = (255, 0, 0)
         red_image[:, 0:400] = (0, 0, 255)
 
+        i = 0
+
         while self.is_tracking and self.infrared_camera is not None:
             # Get a frame from camera
             ret, frame = self.infrared_camera_get_frame()
@@ -173,22 +175,25 @@ class Model:
 
                 # Process the frame
                 ir_result = InfraredModel.find_largest_contour(frame=frame)
-                cv2.imshow("Test", ir_result["pro_processing_frame"])
+                result = ir_result["result"]
+                pro_processing_frame=ir_result["pro_processing_frame"]
+                cv2.imshow("Test", pro_processing_frame)
                 cv2.waitKey(1)
 
                 # If InfraredTracker find a target led
-                if ir_result["result"]:
+                if result:
+                    target = ir_result["target"]
 
                     # only proceed if the radius meets a minimum size
-                    if ir_result['radius'] > 2:
+                    if target.radius > 2:
 
                         # TODO: Remove these code later
                         cv2.imshow("Result", blue_image)
                         cv2.waitKey(1)
 
                         # Calculate the distance from center to target, in X-axis and Y-axis
-                        dx = int(ir_result['centroid_x']) - 160
-                        dy = int(ir_result['centroid_y']) - 160
+                        dx = int(target.x) - 160
+                        dy = int(target.y) - 160
 
                         # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
@@ -226,6 +231,7 @@ class Model:
                             # Send message
                             # self.send_serial_message(message = message)
                             print(message)
+
                 else:
                     # TODO: Remove these code later
                     cv2.imshow("Result", red_image)

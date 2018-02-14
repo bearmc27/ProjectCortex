@@ -1,6 +1,8 @@
 import numpy as np
 from cv2 import cv2
 
+from CoreMVC.Model.Target.Target import Target
+
 lower_boundary = np.array([0, 0, 0])
 upper_boundary = np.array([0, 0, 0])
 _is_erode = False
@@ -92,11 +94,11 @@ def find_largest_contour(frame):
 
     # Eroded the frmae
     if _is_erode:
-        mask = cv2.erode(mask, None, iterations=_erode_iterations)
+        mask = cv2.erode(mask, None, iterations = _erode_iterations)
 
     # Dilate the frame
     if _is_dilate:
-        mask = cv2.dilate(mask, None, iterations=_dilate_iterations)
+        mask = cv2.dilate(mask, None, iterations = _dilate_iterations)
 
     # Find contours in the mask
     # contours: 輪廓
@@ -108,7 +110,7 @@ def find_largest_contour(frame):
     if len(contours) > 0:
 
         # Find the largest contour among all contours
-        largest_contour = max(contours, key=cv2.contourArea)
+        largest_contour = max(contours, key = cv2.contourArea)
 
         # Form the minimum circle contain the above largest contour
         # Get x, y, and radius of largest contour
@@ -127,6 +129,11 @@ def find_largest_contour(frame):
                 centroid_x = int(M["m10"] / m00)
                 centroid_y = int(M["m01"] / m00)
 
-            return {"result": True, 'x': x, 'y': y, 'radius': radius, 'centroid_x': centroid_x, "centroid_y": centroid_y, "pro_processing_frame": mask}
+            mask = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
+            cv2.circle(mask, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
+
+            target = Target(x = centroid_x, y = centroid_y, radius = radius)
+
+            return {"result": True, "target": target, "pro_processing_frame": mask}
 
     return {"result": False, "pro_processing_frame": mask}
