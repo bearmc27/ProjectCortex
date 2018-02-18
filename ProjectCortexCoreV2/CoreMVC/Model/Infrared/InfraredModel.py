@@ -11,6 +11,7 @@ _is_dilate = False
 _dilate_iterations = 0
 _is_blur = False
 _blur_kernalsize = 0
+min_radius = 2
 
 
 ############################################################
@@ -79,7 +80,7 @@ def set_dilate_iterations(dilate_iterations):
 ############################################################
 # Model
 ############################################################
-def find_largest_contour(frame):
+def find_candidate_targets(frame):
     _frame = frame
     # Blur the frame to remove noise
     if _is_blur:
@@ -94,11 +95,11 @@ def find_largest_contour(frame):
 
     # Eroded the frmae
     if _is_erode:
-        mask = cv2.erode(mask, None, iterations = _erode_iterations)
+        mask = cv2.erode(mask, None, iterations=_erode_iterations)
 
     # Dilate the frame
     if _is_dilate:
-        mask = cv2.dilate(mask, None, iterations = _dilate_iterations)
+        mask = cv2.dilate(mask, None, iterations=_dilate_iterations)
 
     # Find contours in the mask
     # contours: 輪廓
@@ -106,34 +107,41 @@ def find_largest_contour(frame):
     # cv2.CHAIN_APPROX_SIMPLE: only keep the coordinate value (x, y), ignore directional data
     contours = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
+    # Convert the mask from gray-scale back to bgr for better support of showing in GUI
+    mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+
     # If there exists contour
     if len(contours) > 0:
+        targets = []
 
-        # Find the largest contour among all contours
-        largest_contour = max(contours, key = cv2.contourArea)
+        # create Target object for each contours
+        for contour in contours:
+            # Form the minimum circle contain the above largest contour
+            # Get x, y, and radius of largest contour
+            ((x, y), radius) = cv2.minEnclosingCircle(contour)
 
-        # Form the minimum circle contain the above largest contour
-        # Get x, y, and radius of largest contour
-        ((x, y), radius) = cv2.minEnclosingCircle(largest_contour)
+            # only proceed if the radius meets a minimum size
+            if radius > min_radius:
 
-        # Only proceed if the radius meets the minimum size
-        if radius > 2:
-            # Calculate the centroid of largest contour and find its center
-            M = cv2.moments(largest_contour)
+                # Calculate the centroid of largest contour and find its center
+                m = cv2.moments(contour)
 
-            m00 = M["m00"]
-            if m00 == 0:
-                centroid_x = 0
-                centroid_y = 0
-            else:
-                centroid_x = int(M["m10"] / m00)
-                centroid_y = int(M["m01"] / m00)
+                m00 = m["m00"]
+                # if m00 is 0, which will result in division by zero error later, just use original x and y will be good enough
+                # e.g. if the contour shape is a balanced butterfly shape, m00 will highly likely be zero
+                if m00 == 0:
+                    centroid_x = int(x)
+                    centroid_y = int(y)
+                else:
+                    centroid_x = int(m["m10"] / m00)
+                    centroid_y = int(m["m01"] / m00)
 
-            mask = cv2.cvtColor(mask,cv2.COLOR_GRAY2BGR)
-            cv2.circle(mask, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
+                cv2.circle(mask, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
 
-            target = Target(x = centroid_x, y = centroid_y, radius = radius)
+                target = Target(x=centroid_x, y=centroid_y, radius=radius)
+                targets.append(target)
 
-            return {"result": True, "target": target, "pro_processing_frame": mask}
+        if len(targets) > 0:
+            return {"result": True, "targets": targets, "pro_processing_frame": mask}
 
     return {"result": False, "pro_processing_frame": mask}

@@ -9,7 +9,3 @@ def frame_to_pixmap(frame):
     pix = QtGui.QPixmap.fromImage(img)
 
     return pix
-
-
-def testdef():
-    pass

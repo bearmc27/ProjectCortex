@@ -9,6 +9,7 @@ from CoreMVC.Model.Camera.Camera import Camera
 from CoreMVC.Model.Infrared import InfraredModel
 from CoreMVC.Model.Serial.SerialConnection import SerialConnection
 from CoreMVC.Model.Serial.SerialModel import SerialModel
+from CoreMVC.Model.Target.Target import Target
 from CoreMVC.Model.Util.Gui import GuiModel
 
 
@@ -52,13 +53,13 @@ class Model:
     ############################################################
     def create_serial_connection(self, baudrate, port):
         if self.serial_connection is None:
-            self.serial_connection = SerialConnection(baudrate=baudrate, port=port)
+            self.serial_connection = SerialConnection(baudrate = baudrate, port = port)
 
         else:
             print("Serial Model Already Created @" + str(self.serial_connection.get_port()) + " " + str(self.serial_connection.get_baudrate()) + " baud")
 
     def send_serial_message(self, message):
-        self.serial_connection.send_serial_message(message=message)
+        self.serial_connection.send_serial_message(message = message)
 
     def get_available_serial_ports_list(self):
         return SerialModel.get_available_serial_ports_list()
@@ -77,7 +78,7 @@ class Model:
         if self.rgb_camera is None:
             print("RGB Camera Not Yet Setup, Cannot Set Resolution")
         else:
-            self.rgb_camera.set_videostream_resolution(width=width, height=height)
+            self.rgb_camera.set_videostream_resolution(width = width, height = height)
 
     ############################################################
     # Infrared Camera
@@ -93,7 +94,7 @@ class Model:
         if self.infrared_camera is None:
             print("Infrared Camera Not Yet Setup, Cannot Set Resolution")
         else:
-            self.infrared_camera.set_videostream_resolution(width=width, height=height)
+            self.infrared_camera.set_videostream_resolution(width = width, height = height)
 
     ############################################################
     # Video Preview
@@ -106,7 +107,7 @@ class Model:
                 print("RGB Camera Not Yet Setup")
             else:
                 self.is_previewing = True
-                Thread(target=self.view_preview_loop, args=()).start()
+                Thread(target = self.view_preview_loop, args = ()).start()
 
     def stop_video_preview(self):
         if self.is_previewing:
@@ -120,7 +121,7 @@ class Model:
             if ret:
                 pix = GuiModel.frame_to_pixmap(frame)
 
-                self.controller.main_gui_set_label_videostream_frame(pixmap=pix)
+                self.controller.main_gui_set_label_videostream_frame(pixmap = pix)
 
             else:
                 print("Preview Ended With ret=False")
@@ -145,7 +146,7 @@ class Model:
                     print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
-                    Thread(target=self.tracking_loop, args=()).start()
+                    Thread(target = self.tracking_loop, args = ()).start()
 
     def stop_tracking(self):
         if self.is_tracking:
@@ -171,66 +172,71 @@ class Model:
             if ret:
                 # Resize(downsize) the frame for better processing performance
                 # Current natively using 320x240 frame, no downsizing it needed
-                frame = imutils.resize(frame, width=320)
+                frame = imutils.resize(frame, width = 320)
 
                 # Process the frame
-                ir_result = InfraredModel.find_largest_contour(frame=frame)
+                ir_result = InfraredModel.find_candidate_targets(frame = frame)
                 result = ir_result["result"]
-                pro_processing_frame=ir_result["pro_processing_frame"]
-                cv2.imshow("Test", pro_processing_frame)
-                cv2.waitKey(1)
+                pro_processing_frame = ir_result["pro_processing_frame"]
 
-                # If InfraredTracker find a target led
                 if result:
-                    target = ir_result["target"]
+                    targets = ir_result["targets"]
+                    target = max(targets, key = Target.get_radius)
 
-                    # only proceed if the radius meets a minimum size
-                    if target.radius > 2:
+                    if len(targets) == 1:
+                        x, y = targets[0].x, targets[0].y
 
-                        # TODO: Remove these code later
-                        cv2.imshow("Result", blue_image)
-                        cv2.waitKey(1)
+                    else:
+                        targets.sort(key = Target.get_radius, reverse = True)
+                        x, y = Target.find_2_targets_middle(target0 = targets[0], target1 = targets[1])
 
-                        # Calculate the distance from center to target, in X-axis and Y-axis
-                        dx = int(target.x) - 160
-                        dy = int(target.y) - 160
+                    # TODO: Remove these code later
+                    cv2.imshow("Result", blue_image)
+                    cv2.waitKey(1)
+                    cv2.circle(pro_processing_frame, (x, y), 2, (0, 255, 0), -1)
+                    cv2.imshow("Test", pro_processing_frame)
+                    cv2.waitKey(1)
 
-                        # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
+                    # Calculate the distance from center to target, in X-axis and Y-axis
+                    dx = target.x - 160
+                    dy = target.y - 160
 
-                        abs_dx = abs(dx)
-                        abs_dy = abs(dy)
-                        if abs_dx < self.effective_x:
-                            dx = 0
-                        if abs_dy < self.effective_y:
-                            dy = 0
+                    # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
-                        # print("After : dx: " + str(dx) + "\tdy: " + str(dy))
+                    abs_dx = abs(dx)
+                    abs_dy = abs(dy)
+                    if abs_dx < self.effective_x:
+                        dx = 0
+                    if abs_dy < self.effective_y:
+                        dy = 0
 
-                        if not (dx == 0 and dy == 0):
+                    # print("After : dx: " + str(dx) + "\tdy: " + str(dy))
 
-                            # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1; 2-> 1
-                            # target on left to center
-                            if dx < 0:
-                                direction_x = 0
-                            # target on right to center
-                            else:
-                                direction_x = 2
-                            # target above center
-                            if dy < 0:
-                                direction_y = 0
-                            # target below center
-                            else:
-                                direction_y = 2
+                    if not (dx == 0 and dy == 0):
 
-                            # TODO: Set package type
-                            # Build the message string
-                            # First integer is package type
-                            message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"
-                            # print("Sent Message: " + message)
+                        # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1; 2-> 1
+                        # target on left to center
+                        if dx < 0:
+                            direction_x = 0
+                        # target on right to center
+                        else:
+                            direction_x = 2
+                        # target above center
+                        if dy < 0:
+                            direction_y = 0
+                        # target below center
+                        else:
+                            direction_y = 2
 
-                            # Send message
-                            # self.send_serial_message(message = message)
-                            print(message)
+                        # TODO: Set package type
+                        # Build the message string
+                        # First integer is package type
+                        message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"
+                        # print("Sent Message: " + message)
+
+                        # Send message
+                        # self.send_serial_message(message = message)
+                        print(message)
 
                 else:
                     # TODO: Remove these code later
@@ -252,7 +258,7 @@ class Model:
     def start_record(self):
         # TODO: Relocate these code
         fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
-        self.rgb_camera.create_record_videowriter(codex=fourcc_codex, video_path="C:/ProjectCortexVideoOutput/output.avi", fps=30)
+        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
         self.rgb_camera.start_record()
 
     def stop_record(self):
@@ -268,27 +274,27 @@ class Model:
     ############################################################
 
     def manual_gimbal_up(self):
-        self.send_serial_message(message="000000010;")
+        self.send_serial_message(message = "000000010;")
 
     def manual_gimbal_down(self):
-        self.send_serial_message(message="000002010;")
+        self.send_serial_message(message = "000002010;")
 
     def manual_gimbal_left(self):
-        self.send_serial_message(message="000100000;")
+        self.send_serial_message(message = "000100000;")
 
     def manual_gimbal_right(self):
-        self.send_serial_message(message="020100000;")
+        self.send_serial_message(message = "020100000;")
 
     ############################################################
     # Camera Setup
     ############################################################
     def setup_infrared_camera(self, index):
         self.clear_infrared_camera()
-        self.infrared_camera = Camera(camera_index=index)
+        self.infrared_camera = Camera(camera_index = index)
 
     def setup_rgb_camera(self, index):
         self.clear_rgb_camera()
-        self.rgb_camera = Camera(camera_index=index)
+        self.rgb_camera = Camera(camera_index = index)
 
     def clear_infrared_camera(self):
         self.infrared_camera = None
@@ -303,31 +309,31 @@ class Model:
     # Infrared Boundary
     ############################################################
     def set_infrared_upper_boundary_hue(self, hue):
-        InfraredModel.set_infrared_upper_boundary_hue(hue=hue)
+        InfraredModel.set_infrared_upper_boundary_hue(hue = hue)
 
     def set_infrared_upper_boundary_saturation(self, saturation):
-        InfraredModel.set_infrared_upper_boundary_saturation(saturation=saturation)
+        InfraredModel.set_infrared_upper_boundary_saturation(saturation = saturation)
 
     def set_infrared_upper_boundary_value(self, value):
-        InfraredModel.set_infrared_upper_boundary_value(value=value)
+        InfraredModel.set_infrared_upper_boundary_value(value = value)
 
     def set_infrared_lower_boundary_hue(self, hue):
-        InfraredModel.set_infrared_lower_boundary_hue(hue=hue)
+        InfraredModel.set_infrared_lower_boundary_hue(hue = hue)
 
     def set_infrared_lower_boundary_saturation(self, saturation):
-        InfraredModel.set_infrared_lower_boundary_saturation(saturation=saturation)
+        InfraredModel.set_infrared_lower_boundary_saturation(saturation = saturation)
 
     def set_infrared_lower_boundary_value(self, value):
-        InfraredModel.set_infrared_lower_boundary_value(value=value)
+        InfraredModel.set_infrared_lower_boundary_value(value = value)
 
     ############################################################
     # Morphological Transformation
     ############################################################
     def set_blur_kernalsize(self, blur_kernalsize):
-        InfraredModel.set_blur_kernalsize(blur_kernalsize=blur_kernalsize)
+        InfraredModel.set_blur_kernalsize(blur_kernalsize = blur_kernalsize)
 
     def set_erode_iteration(self, erode_iterations):
-        InfraredModel.set_erode_iterations(erode_iterations=erode_iterations)
+        InfraredModel.set_erode_iterations(erode_iterations = erode_iterations)
 
     def set_dilate_iteration(self, dilate_iterations):
-        InfraredModel.set_dilate_iterations(dilate_iterations=dilate_iterations)
+        InfraredModel.set_dilate_iterations(dilate_iterations = dilate_iterations)
