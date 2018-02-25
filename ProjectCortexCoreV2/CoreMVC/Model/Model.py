@@ -142,7 +142,7 @@ class Model:
             if self.infrared_camera is None:
                 print("Infrared Camera Not Yet Setup")
             else:
-                if self.serial_connection is None and False:
+                if self.serial_connection is None:
                     print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
@@ -181,7 +181,6 @@ class Model:
 
                 if result:
                     targets = ir_result["targets"]
-                    target = max(targets, key = Target.get_radius)
 
                     if len(targets) == 1:
                         x, y = targets[0].x, targets[0].y
@@ -198,8 +197,8 @@ class Model:
                     cv2.waitKey(1)
 
                     # Calculate the distance from center to target, in X-axis and Y-axis
-                    dx = target.x - 160
-                    dy = target.y - 160
+                    dx = x - 160
+                    dy = y - 160
 
                     # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
 
@@ -235,8 +234,8 @@ class Model:
                         # print("Sent Message: " + message)
 
                         # Send message
-                        # self.send_serial_message(message = message)
-                        print(message)
+                        self.send_serial_message(message = message)
+                        # print(message)
 
                 else:
                     # TODO: Remove these code later
