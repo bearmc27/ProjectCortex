@@ -22,6 +22,9 @@ class Model:
 
         self.serial_connection = None
 
+        self.rgb_camera_index = None
+        self.infrared_camera_index = None
+
         self.rgb_camera = None
         self.infrared_camera = None
 
@@ -38,11 +41,11 @@ class Model:
         # TODO: check if the thread is stopped, then Cameras=None
         if self.rgb_camera is not None:
             self.rgb_camera.release_camera()
-        self.rgb_camera = None
+        self.clear_rgb_camera()
 
         if self.infrared_camera is not None:
             self.infrared_camera.release_camera()
-        self.infrared_camera = None
+        self.clear_infrared_camera()
 
         if self.serial_connection is not None:
             self.serial_connection.close_serial()
@@ -234,8 +237,7 @@ class Model:
                         # print("Sent Message: " + message)
 
                         # Send message
-                        self.send_serial_message(message = message)
-                        # print(message)
+                        self.send_serial_message(message = message)  # print(message)
 
                 else:
                     # TODO: Remove these code later
@@ -289,10 +291,16 @@ class Model:
     ############################################################
     def setup_infrared_camera(self, index):
         self.clear_infrared_camera()
+        self.infrared_camera_index = index
+        if self.rgb_camera_index == index and self.rgb_camera is not None:
+            self.infrared_camera = self.rgb_camera
         self.infrared_camera = Camera(camera_index = index)
 
     def setup_rgb_camera(self, index):
         self.clear_rgb_camera()
+        self.rgb_camera_index = index
+        if self.infrared_camera_index == index and self.infrared_camera is not None:
+            self.rgb_camera = self.infrared_camera
         self.rgb_camera = Camera(camera_index = index)
 
     def clear_infrared_camera(self):
