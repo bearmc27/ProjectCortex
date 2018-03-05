@@ -10,7 +10,7 @@ class Controller():
         print("Create Serial Model")
         baudrate = 57600
         port = self.view.get_combobox_serial_connection_port_current_text()
-        if port == -1:
+        if port is None:
             print("Serial Port Not Selected")
         else:
             self.model.create_serial_connection(baudrate=baudrate, port=port)

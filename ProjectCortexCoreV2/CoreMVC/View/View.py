@@ -12,7 +12,7 @@ class View():
     # Main Gui
     ############################################################
     def main_gui_create(self):
-        self.main_gui = MainGui(controller=self.controller)
+        self.main_gui = MainGui(controller = self.controller)
 
     def main_gui_show(self):
         self.main_gui.show()

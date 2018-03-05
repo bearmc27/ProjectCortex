@@ -258,9 +258,12 @@ class Model:
     ############################################################
     def start_record(self):
         # TODO: Relocate these code
-        fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
-        self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
-        self.rgb_camera.start_record()
+        if self.rgb_camera is None:
+            print("RGB Camera Not Yet Setup")
+        else:
+            fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
+            self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
+            self.rgb_camera.start_record()
 
     def stop_record(self):
         if self.rgb_camera is not None:
@@ -275,16 +278,20 @@ class Model:
     ############################################################
 
     def manual_gimbal_up(self):
-        self.send_serial_message(message = "000000010;")
+        if self.serial_connection is not None:
+            self.send_serial_message(message = "000000010;")
 
     def manual_gimbal_down(self):
-        self.send_serial_message(message = "000002010;")
+        if self.serial_connection is not None:
+            self.send_serial_message(message = "000002010;")
 
     def manual_gimbal_left(self):
-        self.send_serial_message(message = "000100000;")
+        if self.serial_connection is not None:
+            self.send_serial_message(message = "000100000;")
 
     def manual_gimbal_right(self):
-        self.send_serial_message(message = "020100000;")
+        if self.serial_connection is not None:
+            self.send_serial_message(message = "020100000;")
 
     ############################################################
     # Camera Setup
