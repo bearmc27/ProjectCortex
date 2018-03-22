@@ -79,13 +79,22 @@ class View():
         self.main_gui.spinbox_infrared_dilate_iterations.valueChanged['int'].connect(self.controller.set_dilate_iterations)
 
     ############################################################
-    # Preview
+    # Preview RGB
     ############################################################
-    def main_gui_set_label_videostream_frame(self, pixmap):
-        self.main_gui.label_videostream.setPixmap(pixmap)
+    def main_gui_set_label_rgb_camera_preview_frame(self, pixmap):
+        self.main_gui.label_rgb_camera_preview.setPixmap(pixmap)
 
-    def main_gui_clear_label_videostream_frame(self):
-        self.main_gui.label_videostream.clear()
+    def main_gui_clear_label_rgb_camera_preview_frame(self):
+        self.main_gui.label_rgb_camera_preview.clear()
+
+    ############################################################
+    # Preview infrared
+    ############################################################
+    def main_gui_set_label_infrared_camera_preview_frame(self, pixmap):
+        self.main_gui.label_infrared_camera_preview.setPixmap(pixmap)
+
+    def main_gui_clear_label_infrared_camera_preview_frame(self):
+        self.main_gui.label_infrared_camera_preview.clear()
 
     ############################################################
     # Serial

@@ -21,7 +21,7 @@ class Controller():
         self.view.set_combobox_serial_connection_port_list(list=[row[0] for row in available_serial_ports])
 
     ############################################################
-    # Preview
+    # Preview RGB
     ############################################################
     def start_video_preview(self):
         print("Start Video Preview")
@@ -31,11 +31,20 @@ class Controller():
         print("Stop Video Preview")
         self.model.stop_video_preview()
 
-    def main_gui_set_label_videostream_frame(self, pixmap):
-        self.view.main_gui_set_label_videostream_frame(pixmap=pixmap)
+    def main_gui_set_label_rgb_camera_preview_frame(self, pixmap):
+        self.view.main_gui_set_label_rgb_camera_preview_frame(pixmap=pixmap)
 
-    def main_gui_clear_label_videostream_frame(self):
-        self.view.main_gui_clear_label_videostream_frame()
+    def main_gui_clear_label_rgb_camera_preview_frame(self):
+        self.view.main_gui_clear_label_rgb_camera_preview_frame()
+
+    ############################################################
+    # Preview Infrared
+    ############################################################
+    def main_gui_set_label_infrared_camera_preview_frame(self, pixmap):
+        self.view.main_gui_set_label_infrared_camera_preview_frame(pixmap = pixmap)
+
+    def main_gui_clear_label_infrared_camera_preview_frame(self):
+        self.view.main_gui_clear_label_infrared_camera_preview_frame()
 
     ############################################################
     # Tracking

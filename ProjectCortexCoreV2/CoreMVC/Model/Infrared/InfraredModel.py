@@ -136,8 +136,6 @@ def find_candidate_targets(frame):
                     centroid_x = int(m["m10"] / m00)
                     centroid_y = int(m["m01"] / m00)
 
-                cv2.circle(mask, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
-
                 target = Target(x=centroid_x, y=centroid_y, radius=radius)
                 targets.append(target)
 

@@ -124,16 +124,16 @@ class Model:
             if ret:
                 pix = GuiModel.frame_to_pixmap(frame)
 
-                self.controller.main_gui_set_label_videostream_frame(pixmap = pix)
+                self.controller.main_gui_set_label_rgb_camera_preview_frame(pixmap = pix)
 
             else:
                 print("Preview Ended With ret=False")
                 self.is_previewing = False
-                self.rgb_camera = None
+                # self.rgb_camera = None
 
         self.is_previewing = False
         print("Preview Ended")
-        self.controller.main_gui_clear_label_videostream_frame()
+        self.controller.main_gui_clear_label_rgb_camera_preview_frame()
 
     ############################################################
     # Tracking
@@ -145,7 +145,8 @@ class Model:
             if self.infrared_camera is None:
                 print("Infrared Camera Not Yet Setup")
             else:
-                if self.serial_connection is None:
+                # TODO: remove "and False" when using actual serial connection.
+                if self.serial_connection is None and False:
                     print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
@@ -158,15 +159,6 @@ class Model:
             print("Program Was Not Tracking")
 
     def tracking_loop(self):
-        # TODO: Remove these code later
-
-        cv2.namedWindow("Test", cv2.WINDOW_NORMAL)
-        blue_image = np.zeros((400, 400, 3), np.uint8)
-        red_image = np.zeros((400, 400, 3), np.uint8)
-        blue_image[:, 0:400] = (255, 0, 0)
-        red_image[:, 0:400] = (0, 0, 255)
-
-        i = 0
 
         while self.is_tracking and self.infrared_camera is not None:
             # Get a frame from camera
@@ -187,17 +179,17 @@ class Model:
 
                     if len(targets) == 1:
                         x, y = targets[0].x, targets[0].y
+                        cv2.circle(pro_processing_frame, (x, y), 6, (0, 0, 255), -1)
 
                     else:
                         targets.sort(key = Target.get_radius, reverse = True)
                         x, y = Target.find_2_targets_middle(target0 = targets[0], target1 = targets[1])
+                        cv2.circle(pro_processing_frame, (targets[0].x, targets[0].y), 6, (0, 0, 255), -1)
+                        cv2.circle(pro_processing_frame, (targets[1].x, targets[1].y), 6, (0, 0, 255), -1)
 
-                    # TODO: Remove these code later
-                    cv2.imshow("Result", blue_image)
-                    cv2.waitKey(1)
-                    cv2.circle(pro_processing_frame, (x, y), 2, (0, 255, 0), -1)
-                    cv2.imshow("Test", pro_processing_frame)
-                    cv2.waitKey(1)
+                    cv2.circle(pro_processing_frame, (x, y), 4, (0, 255, 0), -1)
+                    pix = GuiModel.frame_to_pixmap(pro_processing_frame)
+                    self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
 
                     # Calculate the distance from center to target, in X-axis and Y-axis
                     dx = x - 160
@@ -237,17 +229,16 @@ class Model:
                         # print("Sent Message: " + message)
 
                         # Send message
-                        self.send_serial_message(message = message)  # print(message)
+                        # self.send_serial_message(message = message)  # print(message)
 
                 else:
-                    # TODO: Remove these code later
-                    cv2.imshow("Result", red_image)
-                    cv2.waitKey(1)
+                    pix = GuiModel.frame_to_pixmap(pro_processing_frame)
+                    self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
 
             else:
                 print("Tracking Ended With ret=False")
                 self.is_tracking = False
-                self.infrared_camera = None
+                # self.infrared_camera = None
 
         cv2.destroyAllWindows()
         print("Tracking Ended")

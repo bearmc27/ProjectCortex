@@ -192,7 +192,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>C:/Users/man_k/res/button_manual_gimbal_left.png</normaloff>C:/Users/man_k/res/button_manual_gimbal_left.png</iconset>
+     <normaloff>../../../../../Users/man_k/res/button_manual_gimbal_left.png</normaloff>../../../../../Users/man_k/res/button_manual_gimbal_left.png</iconset>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -428,7 +428,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_rgb_camera_videostream">
+  <widget class="QLabel" name="label_rgb_camera_preview">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -467,7 +467,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>C:/Users/man_k/res/button_manual_gimbal_down.png</normaloff>C:/Users/man_k/res/button_manual_gimbal_down.png</iconset>
+     <normaloff>../../../../../Users/man_k/res/button_manual_gimbal_down.png</normaloff>../../../../../Users/man_k/res/button_manual_gimbal_down.png</iconset>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
@@ -499,7 +499,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="label_Infrared_camera_preview_2">
+  <widget class="QLabel" name="label_infrared_camera_preview">
    <property name="geometry">
     <rect>
      <x>660</x>
@@ -672,7 +672,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>C:/Users/man_k/res/button_manual_gimbal_right.png</normaloff>C:/Users/man_k/res/button_manual_gimbal_right.png</iconset>
+     <normaloff>../../../../../Users/man_k/res/button_manual_gimbal_right.png</normaloff>../../../../../Users/man_k/res/button_manual_gimbal_right.png</iconset>
    </property>
    <property name="autoRepeat">
     <bool>true</bool>
