@@ -1,7 +1,6 @@
 from threading import Thread
 
 import imutils
-import numpy as np
 from cv2 import cv2
 
 from CoreMVC.Model.Camera import CameraModel
@@ -128,8 +127,7 @@ class Model:
 
             else:
                 print("Preview Ended With ret=False")
-                self.is_previewing = False
-                # self.rgb_camera = None
+                self.is_previewing = False  # self.rgb_camera = None
 
         self.is_previewing = False
         print("Preview Ended")
@@ -225,11 +223,9 @@ class Model:
                         # TODO: Set package type
                         # Build the message string
                         # First integer is package type
-                        message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"
-                        # print("Sent Message: " + message)
+                        message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"  # print("Sent Message: " + message)
 
-                        # Send message
-                        # self.send_serial_message(message = message)  # print(message)
+                        # Send message  # self.send_serial_message(message = message)  # print(message)
 
                 else:
                     pix = GuiModel.frame_to_pixmap(pro_processing_frame)
@@ -237,10 +233,8 @@ class Model:
 
             else:
                 print("Tracking Ended With ret=False")
-                self.is_tracking = False
-                # self.infrared_camera = None
+                self.is_tracking = False  # self.infrared_camera = None
 
-        cv2.destroyAllWindows()
         print("Tracking Ended")
         self.is_tracking = False
 
@@ -288,17 +282,31 @@ class Model:
     # Camera Setup
     ############################################################
     def setup_infrared_camera(self, index):
+        if self.is_tracking:
+            self.stop_tracking()
+
         self.clear_infrared_camera()
         self.infrared_camera_index = index
-        if self.rgb_camera_index == index and self.rgb_camera is not None:
-            self.infrared_camera = self.rgb_camera
+        if self.rgb_camera is not None:
+            if self.rgb_camera.camera_index == index:
+                self.infrared_camera = self.rgb_camera
+                return
         self.infrared_camera = Camera(camera_index = index)
 
     def setup_rgb_camera(self, index):
+        if self.is_previewing:
+            self.stop_video_preview()
+
+        if self.rgb_camera is not None:
+            if self.rgb_camera.is_recording:
+                self.rgb_camera.stop_record()
+
         self.clear_rgb_camera()
         self.rgb_camera_index = index
-        if self.infrared_camera_index == index and self.infrared_camera is not None:
-            self.rgb_camera = self.infrared_camera
+        if self.infrared_camera is not None:
+            if self.infrared_camera.camera_index == index:
+                self.rgb_camera = self.infrared_camera
+                return
         self.rgb_camera = Camera(camera_index = index)
 
     def clear_infrared_camera(self):
