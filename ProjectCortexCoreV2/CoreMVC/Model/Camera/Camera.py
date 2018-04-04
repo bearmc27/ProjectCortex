@@ -42,15 +42,23 @@ class Camera():
     ############################################################
     # Recording
     ############################################################
-    def start_record(self):
+    def start_record(self,model):
         if self.is_recording:
             print("Already Recording")
+            return False
         else:
+            self.model = model
             self.is_recording = True
+            fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
+            self.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
             Thread(target=self.record_loop, args=()).start()
+            print(True)
+            return True
 
     def stop_record(self):
         self.is_recording = False
+        self.model.controller.view.disable_button_stop_record()
+        self.model.controller.view.enable_button_start_record()
 
     def record_loop(self):
         while self.is_recording:
@@ -60,7 +68,7 @@ class Camera():
                 self.video_out.write(frame)
 
             else:
-                self.is_recording = False
+                self.stop_record()
 
         self.video_out.release()
 

@@ -109,6 +109,12 @@ class View():
         self.main_gui.combobox_serial_connection_ports.clear()
         self.main_gui.combobox_serial_connection_ports.addItems(list)
 
+    def disable_button_refresh_combobox_serial_connection_ports(self):
+        self.main_gui.button_refresh_combobox_serial_connection_ports.setEnabled(False)
+
+    def disable_button_create_serial_connection(self):
+        self.main_gui.button_create_serial_connection.setEnabled(False)
+
     ############################################################
     # Camera
     ############################################################
@@ -131,6 +137,49 @@ class View():
     def set_combobox_rgb_camera_index_list(self, list):
         self.main_gui.combobox_rgb_camera_index.clear()
         self.main_gui.combobox_rgb_camera_index.addItems(list)
+
+    def disable_button_refresh_combobox_camera_index(self):
+        self.main_gui.button_refresh_combobox_camera_index.setEnabled(False)
+        
+    ############################################################
+    # Record, Preview, Track
+    ############################################################
+    def disable_button_start_record(self):
+        self.main_gui.button_start_record.setEnabled(False)
+
+    def disable_button_stop_record(self):
+        self.main_gui.button_stop_record.setEnabled(False)
+
+    def disable_button_start_preview(self):
+        self.main_gui.button_start_preview.setEnabled(False)
+
+    def disable_button_stop_preview(self):
+        self.main_gui.button_stop_preview.setEnabled(False)
+
+    def disable_button_start_tracking(self):
+        self.main_gui.button_start_tracking.setEnabled(False)
+
+    def disable_button_stop_tracking(self):
+        self.main_gui.button_stop_tracking.setEnabled(False)
+
+    def enable_button_start_record(self):
+        self.main_gui.button_start_record.setEnabled(True)
+
+    def enable_button_stop_record(self):
+        self.main_gui.button_stop_record.setEnabled(True)
+
+    def enable_button_start_preview(self):
+        self.main_gui.button_start_preview.setEnabled(True)
+
+    def enable_button_stop_preview(self):
+        self.main_gui.button_stop_preview.setEnabled(True)
+
+    def enable_button_start_tracking(self):
+        self.main_gui.button_start_tracking.setEnabled(True)
+
+    def enable_button_stop_tracking(self):
+        self.main_gui.button_stop_tracking.setEnabled(True)
+
 
     ############################################################
     # Infrared Boundary

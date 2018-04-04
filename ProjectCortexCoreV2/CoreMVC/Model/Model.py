@@ -110,26 +110,33 @@ class Model:
             else:
                 self.is_previewing = True
                 Thread(target = self.view_preview_loop, args = ()).start()
+                self.controller.view.disable_button_start_preview()
+                self.controller.view.enable_button_stop_preview()
 
     def stop_video_preview(self):
         if self.is_previewing:
             self.is_previewing = False
+            self.controller.view.disable_button_stop_preview()
+            self.controller.view.enable_button_start_preview()
         else:
             print("Program Was Not Previewing")
 
     def view_preview_loop(self):
-        while self.is_previewing and self.rgb_camera is not None:
-            ret, frame = self.rgb_camera_get_frame()
-            if ret:
-                pix = GuiModel.frame_to_pixmap(frame)
+        while self.is_previewing:
+            if self.rgb_camera is not None:
+                ret, frame = self.rgb_camera_get_frame()
+                if ret:
+                    pix = GuiModel.frame_to_pixmap(frame)
 
-                self.controller.main_gui_set_label_rgb_camera_preview_frame(pixmap = pix)
+                    self.controller.main_gui_set_label_rgb_camera_preview_frame(pixmap = pix)
 
+                else:
+                    print("Preview Ended With ret=False")
+                    self.stop_video_preview()  # self.rgb_camera = None
             else:
-                print("Preview Ended With ret=False")
-                self.is_previewing = False  # self.rgb_camera = None
+                print("Preview Ended With rgb_camera is None")
+                self.stop_video_preview()
 
-        self.is_previewing = False
         print("Preview Ended")
         self.controller.main_gui_clear_label_rgb_camera_preview_frame()
 
@@ -144,99 +151,118 @@ class Model:
                 print("Infrared Camera Not Yet Setup")
             else:
                 # TODO: remove "and False" when using actual serial connection.
-                if self.serial_connection is None and False:
+                if self.serial_connection is None:
                     print("Serial Communication Have Not Setup")
                 else:
                     self.is_tracking = True
                     Thread(target = self.tracking_loop, args = ()).start()
+                    self.controller.view.disable_button_start_tracking()
+                    self.controller.view.enable_button_stop_tracking()
 
     def stop_tracking(self):
         if self.is_tracking:
             self.is_tracking = False
+            self.controller.view.disable_button_stop_tracking()
+            self.controller.view.enable_button_start_tracking()
         else:
             print("Program Was Not Tracking")
 
     def tracking_loop(self):
 
-        while self.is_tracking and self.infrared_camera is not None:
-            # Get a frame from camera
-            ret, frame = self.infrared_camera_get_frame()
+        while self.is_tracking:
+            if self.infrared_camera is not None:
+                # Get a frame from camera
+                ret, frame = self.infrared_camera_get_frame()
 
-            if ret:
-                # Resize(downsize) the frame for better processing performance
-                # Current natively using 320x240 frame, no downsizing it needed
-                frame = imutils.resize(frame, width = 320)
+                if ret:
+                    # Resize(downsize) the frame for better processing performance
+                    # Current natively using 320x240 frame, no downsizing it needed
+                    frame = imutils.resize(frame, width = 320)
 
-                # Process the frame
-                ir_result = InfraredModel.find_candidate_targets(frame = frame)
-                result = ir_result["result"]
-                pro_processing_frame = ir_result["pro_processing_frame"]
+                    # Process the frame
+                    ir_result = InfraredModel.find_candidate_targets(frame = frame)
+                    result = ir_result["result"]
+                    pro_processing_frame = ir_result["pro_processing_frame"]
 
-                if result:
-                    targets = ir_result["targets"]
+                    if result:
+                        targets = ir_result["targets"]
 
-                    if len(targets) == 1:
-                        x, y = targets[0].x, targets[0].y
-                        cv2.circle(pro_processing_frame, (x, y), 6, (0, 0, 255), -1)
+                        if len(targets) == 1:
+                            x, y = targets[0].x, targets[0].y
+                            cv2.circle(pro_processing_frame, (x, y), 6, (0, 0, 255), -1)
+
+                        else:
+                            # sort the candidates by radius
+                            targets.sort(key = Target.get_radius, reverse = True)
+
+                            # if the largest candidates is larger than the second largest candidates by a lot (* 0.??, hence ??% )
+                            # We can assume that the anything other than the largest candidates should be considered.
+                            if targets[1].radius < (targets[0].radius * 0.15):
+                                x, y = targets[0].x, targets[0].y
+                                cv2.circle(pro_processing_frame, (x, y), 6, (0, 0, 255), -1)
+                            else:
+                                # Both first and second largest candidates are large enough, compare to each other, hence consider both.
+                                x, y = Target.find_2_targets_middle(target0 = targets[0], target1 = targets[1])
+                                cv2.circle(pro_processing_frame, (targets[0].x, targets[0].y), 6, (0, 0, 255), -1)
+                                cv2.circle(pro_processing_frame, (targets[1].x, targets[1].y), 6, (0, 0, 255), -1)
+
+                        cv2.circle(pro_processing_frame, (x, y), 4, (0, 255, 0), -1)
+                        pix = GuiModel.frame_to_pixmap(pro_processing_frame)
+                        self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
+
+                        # Calculate the distance from center to target, in X-axis and Y-axis
+                        dx = x - 160
+                        dy = y - 160
+
+                        # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
+
+                        abs_dx = abs(dx)
+                        abs_dy = abs(dy)
+                        if abs_dx < self.effective_x:
+                            dx = 0
+                        if abs_dy < self.effective_y:
+                            dy = 0
+
+                        # print("After : dx: " + str(dx) + "\tdy: " + str(dy))
+
+                        if not (dx == 0 and dy == 0):
+
+                            # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1; 2-> 1
+                            # target on left to center
+                            if dx < 0:
+                                direction_x = 0
+                            # target on right to center
+                            else:
+                                direction_x = 2
+                            # target above center
+                            if dy < 0:
+                                direction_y = 0
+                            # target below center
+                            else:
+                                direction_y = 2
+
+                            # TODO: Set package type
+                            # Build the message string
+                            # First integer is package type
+                            message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"  # print("Sent Message: " + message)
+
+                            # Send message
+                            self.send_serial_message(message = message)
+                            print(message)
 
                     else:
-                        targets.sort(key = Target.get_radius, reverse = True)
-                        x, y = Target.find_2_targets_middle(target0 = targets[0], target1 = targets[1])
-                        cv2.circle(pro_processing_frame, (targets[0].x, targets[0].y), 6, (0, 0, 255), -1)
-                        cv2.circle(pro_processing_frame, (targets[1].x, targets[1].y), 6, (0, 0, 255), -1)
-
-                    cv2.circle(pro_processing_frame, (x, y), 4, (0, 255, 0), -1)
-                    pix = GuiModel.frame_to_pixmap(pro_processing_frame)
-                    self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
-
-                    # Calculate the distance from center to target, in X-axis and Y-axis
-                    dx = x - 160
-                    dy = y - 160
-
-                    # print("Before: dx: " + str(dx) + "\tdy: " + str(dy))
-
-                    abs_dx = abs(dx)
-                    abs_dy = abs(dy)
-                    if abs_dx < self.effective_x:
-                        dx = 0
-                    if abs_dy < self.effective_y:
-                        dy = 0
-
-                    # print("After : dx: " + str(dx) + "\tdy: " + str(dy))
-
-                    if not (dx == 0 and dy == 0):
-
-                        # 0 = Negative, 2 = Positive, this value will be minus 1 in Arduino board, 0-> -1; 2-> 1
-                        # target on left to center
-                        if dx < 0:
-                            direction_x = 0
-                        # target on right to center
-                        else:
-                            direction_x = 2
-                        # target above center
-                        if dy < 0:
-                            direction_y = 0
-                        # target below center
-                        else:
-                            direction_y = 2
-
-                        # TODO: Set package type
-                        # Build the message string
-                        # First integer is package type
-                        message = "0" + str(direction_x) + str(abs(dx)).zfill(3) + str(direction_y) + str(abs(dy)).zfill(3) + ";"  # print("Sent Message: " + message)
-
-                        # Send message  # self.send_serial_message(message = message)  # print(message)
+                        pix = GuiModel.frame_to_pixmap(pro_processing_frame)
+                        self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
 
                 else:
-                    pix = GuiModel.frame_to_pixmap(pro_processing_frame)
-                    self.controller.main_gui_set_label_infrared_camera_preview_frame(pixmap = pix)
-
+                    print("Tracking Ended With ret=False")
+                    self.stop_tracking()  # self.infrared_camera = None
             else:
-                print("Tracking Ended With ret=False")
-                self.is_tracking = False  # self.infrared_camera = None
+                print("Tracking Ended With infrared_camera is None")
+                self.stop_tracking()
 
         print("Tracking Ended")
-        self.is_tracking = False
+        self.controller.main_gui_clear_label_infrared_camera_preview_frame()
 
     ############################################################
     # Recording
@@ -246,9 +272,9 @@ class Model:
         if self.rgb_camera is None:
             print("RGB Camera Not Yet Setup")
         else:
-            fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
-            self.rgb_camera.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
-            self.rgb_camera.start_record()
+            if self.rgb_camera.start_record(model = self):
+                self.controller.view.disable_button_start_record()
+                self.controller.view.enable_button_stop_record()
 
     def stop_record(self):
         if self.rgb_camera is not None:

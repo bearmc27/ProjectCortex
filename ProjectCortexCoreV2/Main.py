@@ -36,7 +36,7 @@ def main():
 
     # Initialize MainGui
     lower_boundary = np.array([0, 0, 200])
-    upper_boundary = np.array([100, 60, 255])
+    upper_boundary = np.array([179, 60, 255])
     view.init_infrared_boundary_value(lower_boundary = lower_boundary, upper_boundary = upper_boundary)
     view.init_morphological_transformation_setup(blur_kernalsize = 0, erode_iterations = 0, dilate_iterations = 0)
 
