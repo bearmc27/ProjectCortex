@@ -318,6 +318,8 @@ class Model:
             if self.rgb_camera.camera_index == index:
                 self.infrared_camera = self.rgb_camera
                 self.controller.view.set_label_status_infrared_camera_text("online")
+
+                self.controller.view.enable_button_start_tracking()
                 return
         self.infrared_camera = Camera(camera_index = index)
         self.controller.view.set_label_status_infrared_camera_text("online")
@@ -338,6 +340,9 @@ class Model:
             if self.infrared_camera.camera_index == index:
                 self.rgb_camera = self.infrared_camera
                 self.controller.view.set_label_status_rgb_camera_text("online")
+
+                self.controller.view.enable_button_start_preview()
+                self.controller.view.enable_button_start_record()
                 return
         self.rgb_camera = Camera(camera_index = index)
         self.controller.view.set_label_status_rgb_camera_text("online")

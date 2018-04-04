@@ -3,6 +3,10 @@ from cv2 import cv2
 
 from CoreMVC.Model.Target.Target import Target
 
+queue_frames = [None,None,None]
+max_frame_trace = 3
+next_frame_index = 0
+
 lower_boundary = np.array([0, 0, 0])
 upper_boundary = np.array([0, 0, 0])
 _is_erode = False
@@ -81,6 +85,8 @@ def set_dilate_iterations(dilate_iterations):
 # Model
 ############################################################
 def find_candidate_targets(frame):
+    global queue_frames
+
     _frame = frame
     # Blur the frame to remove noise
     if _is_blur:
@@ -95,20 +101,25 @@ def find_candidate_targets(frame):
 
     # Eroded the frmae
     if _is_erode:
-        mask = cv2.erode(mask, None, iterations=_erode_iterations)
+        mask = cv2.erode(mask, None, iterations = _erode_iterations)
 
     # Dilate the frame
     if _is_dilate:
-        mask = cv2.dilate(mask, None, iterations=_dilate_iterations)
+        mask = cv2.dilate(mask, None, iterations = _dilate_iterations)
+
+    put_frame(mask)
+    feedback_frame = get_feedback_frame()
 
     # Find contours in the mask
     # contours: 輪廓
     # cv2.RETR_EXTERNAL: only check the contours
     # cv2.CHAIN_APPROX_SIMPLE: only keep the coordinate value (x, y), ignore directional data
-    contours = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
+    contours = cv2.findContours(feedback_frame, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[-2]
 
     # Convert the mask from gray-scale back to bgr for better support of showing in GUI
-    mask = cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+    feedback_frame = cv2.cvtColor(feedback_frame, cv2.COLOR_GRAY2BGR)
+
+
 
     # If there exists contour
     if len(contours) > 0:
@@ -136,10 +147,29 @@ def find_candidate_targets(frame):
                     centroid_x = int(m["m10"] / m00)
                     centroid_y = int(m["m01"] / m00)
 
-                target = Target(x=centroid_x, y=centroid_y, radius=radius)
+                target = Target(x = centroid_x, y = centroid_y, radius = radius)
                 targets.append(target)
 
         if len(targets) > 0:
-            return {"result": True, "targets": targets, "pro_processing_frame": mask}
+            return {"result": True, "targets": targets, "pro_processing_frame": feedback_frame}
 
-    return {"result": False, "pro_processing_frame": mask}
+    return {"result": False, "pro_processing_frame": feedback_frame}
+
+
+def put_frame(frame):
+    global queue_frames
+    global next_frame_index
+
+    queue_frames[next_frame_index] = frame
+    next_frame_index +=1
+    if next_frame_index >= max_frame_trace:
+        next_frame_index = 0
+
+
+def get_feedback_frame():
+    frame = queue_frames[0].copy()
+    for i in range(1,max_frame_trace):
+        if queue_frames[i] is not None:
+            frame=cv2.bitwise_or(frame, queue_frames[i])
+
+    return frame

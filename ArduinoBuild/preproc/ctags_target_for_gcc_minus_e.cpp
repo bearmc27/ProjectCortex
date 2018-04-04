@@ -39,11 +39,11 @@ void setup()
     Serial.begin(57600);
 
     // Stepper1 Testing
-    stepper1.setMaxSpeed(2048);
-    stepper1.setAcceleration(1024);
+    stepper1.setMaxSpeed(3072);
+    stepper1.setAcceleration(2048);
     // Stepper2 Testing
-    stepper2.setMaxSpeed(2048);
-    stepper2.setAcceleration(1024);
+    stepper2.setMaxSpeed(3072);
+    stepper2.setAcceleration(2048);
 }
 
 // Continuously running until power off
