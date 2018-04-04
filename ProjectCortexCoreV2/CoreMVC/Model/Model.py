@@ -56,6 +56,7 @@ class Model:
     def create_serial_connection(self, baudrate, port):
         if self.serial_connection is None:
             self.serial_connection = SerialConnection(baudrate = baudrate, port = port)
+            self.controller.view.set_label_status_serial_connection_text("online")
 
         else:
             print("Serial Model Already Created @" + str(self.serial_connection.get_port()) + " " + str(self.serial_connection.get_baudrate()) + " baud")
@@ -132,7 +133,7 @@ class Model:
 
                 else:
                     print("Preview Ended With ret=False")
-                    self.stop_video_preview()  # self.rgb_camera = None
+                    self.stop_video_preview()
             else:
                 print("Preview Ended With rgb_camera is None")
                 self.stop_video_preview()
@@ -316,8 +317,12 @@ class Model:
         if self.rgb_camera is not None:
             if self.rgb_camera.camera_index == index:
                 self.infrared_camera = self.rgb_camera
+                self.controller.view.set_label_status_infrared_camera_text("online")
                 return
         self.infrared_camera = Camera(camera_index = index)
+        self.controller.view.set_label_status_infrared_camera_text("online")
+
+        self.controller.view.enable_button_start_tracking()
 
     def setup_rgb_camera(self, index):
         if self.is_previewing:
@@ -332,14 +337,21 @@ class Model:
         if self.infrared_camera is not None:
             if self.infrared_camera.camera_index == index:
                 self.rgb_camera = self.infrared_camera
+                self.controller.view.set_label_status_rgb_camera_text("online")
                 return
         self.rgb_camera = Camera(camera_index = index)
+        self.controller.view.set_label_status_rgb_camera_text("online")
+
+        self.controller.view.enable_button_start_preview()
+        self.controller.view.enable_button_start_record()
 
     def clear_infrared_camera(self):
         self.infrared_camera = None
+        self.controller.view.set_label_status_infrared_camera_text("offline")
 
     def clear_rgb_camera(self):
         self.rgb_camera = None
+        self.controller.view.set_label_status_rgb_camera_text("offline")
 
     def get_available_camera_index_list(self):
         return CameraModel.get_available_camera_index_list()

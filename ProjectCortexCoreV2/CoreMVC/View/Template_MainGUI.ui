@@ -45,7 +45,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>500</y>
+     <y>520</y>
      <width>131</width>
      <height>30</height>
     </rect>
@@ -115,7 +115,7 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>540</y>
+     <y>560</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -182,7 +182,7 @@
    <property name="geometry">
     <rect>
      <x>230</x>
-     <y>500</y>
+     <y>520</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -221,10 +221,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_stop_preview">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>500</y>
+     <y>520</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -294,10 +297,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_stop_record">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>460</y>
+     <y>480</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -333,10 +339,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_start_preview">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>500</y>
+     <y>520</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -349,7 +358,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>460</y>
+     <y>480</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -359,7 +368,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>540</y>
+     <y>560</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -394,10 +403,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_start_tracking">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>540</y>
+     <y>560</y>
      <width>101</width>
      <height>30</height>
     </rect>
@@ -457,7 +469,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>530</y>
+     <y>550</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -487,7 +499,7 @@
    <property name="geometry">
     <rect>
      <x>250</x>
-     <y>470</y>
+     <y>490</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -614,10 +626,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_stop_tracking">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>540</y>
+     <y>560</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -652,7 +667,7 @@
    <property name="geometry">
     <rect>
      <x>460</x>
-     <y>500</y>
+     <y>520</y>
      <width>61</width>
      <height>31</height>
     </rect>
@@ -662,7 +677,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>500</y>
+     <y>520</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -682,7 +697,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>540</y>
+     <y>560</y>
      <width>131</width>
      <height>31</height>
     </rect>
@@ -734,10 +749,13 @@
    </property>
   </widget>
   <widget class="QPushButton" name="button_start_record">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>460</y>
+     <y>480</y>
      <width>100</width>
      <height>30</height>
     </rect>
@@ -750,7 +768,7 @@
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>460</y>
+     <y>480</y>
      <width>121</width>
      <height>71</height>
     </rect>
@@ -763,7 +781,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>460</y>
+     <y>480</y>
      <width>131</width>
      <height>30</height>
     </rect>
@@ -818,6 +836,97 @@
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_status_rgb_camera">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>10</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>offline</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_status_infrared_camera">
+   <property name="geometry">
+    <rect>
+     <x>820</x>
+     <y>10</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>offline</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_14">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>410</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Serial Connection :</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_status_serial_connection">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>410</y>
+     <width>71</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Arial</family>
+     <pointsize>14</pointsize>
+     <weight>50</weight>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>offline</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

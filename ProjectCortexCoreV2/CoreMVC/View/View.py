@@ -115,6 +115,9 @@ class View():
     def disable_button_create_serial_connection(self):
         self.main_gui.button_create_serial_connection.setEnabled(False)
 
+    def set_label_status_serial_connection_text(self, text):
+        self.main_gui.label_status_serial_connection.setText(text)
+
     ############################################################
     # Camera
     ############################################################
@@ -140,7 +143,13 @@ class View():
 
     def disable_button_refresh_combobox_camera_index(self):
         self.main_gui.button_refresh_combobox_camera_index.setEnabled(False)
-        
+
+    def set_label_status_rgb_camera_text(self, text):
+        self.main_gui.label_status_rgb_camera.setText(text)
+
+    def set_label_status_infrared_camera_text(self, text):
+        self.main_gui.label_status_infrared_camera.setText(text)
+
     ############################################################
     # Record, Preview, Track
     ############################################################
@@ -179,7 +188,6 @@ class View():
 
     def enable_button_stop_tracking(self):
         self.main_gui.button_stop_tracking.setEnabled(True)
-
 
     ############################################################
     # Infrared Boundary

@@ -12,6 +12,8 @@ class Camera():
 
         self.is_recording = False
 
+        self.model = None
+
         # Do a test frame reading
         ret, frame = self.videostream.read()
         print(ret)
@@ -52,13 +54,13 @@ class Camera():
             fourcc_codex = cv2.VideoWriter_fourcc(*"DIVX")
             self.create_record_videowriter(codex = fourcc_codex, video_path = "C:/ProjectCortexVideoOutput/output.avi", fps = 30)
             Thread(target=self.record_loop, args=()).start()
-            print(True)
             return True
 
     def stop_record(self):
         self.is_recording = False
-        self.model.controller.view.disable_button_stop_record()
-        self.model.controller.view.enable_button_start_record()
+        if self.model is not None:
+            self.model.controller.view.disable_button_stop_record()
+            self.model.controller.view.enable_button_start_record()
 
     def record_loop(self):
         while self.is_recording:
